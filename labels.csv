@@ -1,0 +1,239 @@
+animal,动物
+dog,狗
+cat,猫
+bear,熊
+rabbit,兔子
+lion,狮子
+tiger,老虎
+cattle,牛
+horse,马
+Giraffe,长颈鹿
+Monkey,猴子
+Elephant,大象
+deer,鹿
+giant panda,大熊猫
+Lesser panda,小熊猫
+Hedgehog,刺猬
+Leopard,豹子
+Rhinoceros,犀牛
+Koala,考拉
+Gorilla,大猩猩
+donkey,驴
+rat,鼠
+fox,狐
+wolf,狼
+Goat,山羊
+eagle,鹰
+chicken,鸡
+duck,鸭子
+swan,天鹅
+goose,鹅
+Sparrow,麻雀
+Swallow,燕子
+ostrich,鸵鸟
+Woodpecker,啄木鸟
+Parrot,鹦鹉
+Coral,珊瑚
+Starfish,海星
+Jellyfish,水母
+turtle,龟
+Platypus,鸭嘴兽
+catfish,鲶鱼
+Shark,鲨鱼
+octopus,章鱼
+Sturgeon,鲟鱼
+carp,鲤鱼
+Dolphin,海豚
+Butterfly,蝴蝶
+Dragonfly,蜻蜓
+Snail,蜗牛
+honeybee,蜜蜂
+Ant,蚂蚁
+Fruit,水果
+apple,苹果
+peach,桃
+grape,葡萄
+banana,香蕉
+pineapple,菠萝
+watermelon,西瓜
+lemon,柠檬
+mango,芒果
+strawberry,草莓
+cherry,樱桃
+date,枣
+apricot,杏
+orange,橙
+plum,李子
+pomegranate,石榴
+KIWI,弥猴桃
+lychee,荔枝
+mandarin,桔子
+pomelo,柚子
+lime,青柠檬
+yam,山药
+durian,榴莲
+mangosteen,山竹
+rambutan,毛丹
+pinang,槟榔
+longan,龙眼
+medlar,"枇杷,欧查果"
+fig,无花果
+persimmon,柿子
+walnut,胡桃
+hazelnut,榛子
+nectarine,油桃
+mulberry,桑椹
+Chestnut,栗
+currant,醋粟
+coconut,可可
+bilberry,越桔
+blackberry,黑莓
+Pear,梨
+Carambola,杨桃
+Coconut,椰子
+Kumquat,金桔
+Pineapple,菠萝蜜
+Pitaya,火龙果
+tomato,番茄
+Hami melon,哈密瓜
+Papaya,木瓜
+Red bayberry,杨梅
+Muskmelon,香瓜
+Hawthorn,山楂
+Vehicle,车辆
+bicycle,自行车
+motorcycle,摩托车
+pickuptruck,皮卡车
+train,火车
+tank,坦克
+tractor,拖拉机
+car,小汽车
+convertible,敞篷车
+coach,长途客车
+Double-decker bus,双层巴士
+Truck,普通货车
+Tractor semitrailer,半挂牵引车
+Van,厢式货车
+Tank truck,罐式货车
+Three wheeled motorcycle,三轮摩托车
+Ambulance,救护车
+Police car,警车
+Fire engine,消防车
+Watering car,洒水车
+Sanitation truck,环卫车
+Tractor,拖拉机
+Off-road vehicle,越野汽车
+Train,火车
+rocket,火箭
+Tank,坦克
+Aircraft,客机
+Flying car,飞行汽车
+Fighter,战斗机
+Glider,滑翔机
+Reconnaissance aircraft,侦察机
+AWACS,预警机
+Armed helicopter,武装直升机
+Civilian helicopter,民用直升机
+Bomber,轰炸机
+boat,小船
+Ferry,客轮
+Freighter,货轮
+The boat,快艇
+Sailing,帆船
+Aircraft carrier,航空母舰
+Submarine,潜艇
+Hovercraft,气垫船
+Balance car,平衡车
+Electric bicycle,电动自行车
+crane,吊车
+Forklift,叉车
+Touring car,房车
+Jeep,吉普车
+Go-kart,卡丁车
+racing,赛车
+Electronic_Device,电子装置
+laptop,笔记本电脑
+computer_monitor,电脑显示器
+keyboard,键盘
+telephone,电话
+camera,照相机
+clock,时钟
+TV,电视
+Mobile phone,手机
+Remote control,遥控器
+Charger,充电器
+Data line,数据线
+Telephone,电话机
+Walkie-talkie,对讲机
+Flash card,闪存卡
+Camera lens,镜头
+Mobile phone battery,手机电池
+Laptop battery,笔记本电池
+Mobile phone charger,手机充电器
+Laptop power adapter,笔记本电源适配器
+Hard disk,硬盘
+Camera,摄像头
+sound,音响
+earphones,有线耳机
+Bluetooth headset,蓝牙耳机
+Printer,打印机
+Projector,投影机
+Router,路由器
+CPU,CPU
+GPU,GPU
+Switch,交换机
+Refrigerator,冰箱
+Washing machine,洗衣机
+Air conditioner,空调
+Microwave Oven,微波炉
+Electromagnetic furnace,电磁炉
+Bath heater,浴霸
+Table lamp,台灯
+PHONECARD,电话卡
+USB drive,U盘
+MP3,MP3
+MP4,MP4
+Tablet PC,平板
+Computer case,台式主机
+Power supply unit,台式机电源
+Motherboard,主板
+Main memory,内存
+LED screen,LED屏
+Game handle,游戏手柄
+Counting machine,点钞机
+Vacuum cleaner,吸尘器
+smoke detector,烟雾报警器
+,
+,
+,
+Mobile phone,手机
+iPhone,苹果手机
+iPhone,
+iPhone_3G,
+iPhone_3GS,
+iPhone_4,
+iPhone_4S,
+iPhone_5,
+iPhone_5C,
+iPhone_5S,
+iPhone_6,
+iPhone_6_Plus,
+iPhone_6S,
+iPhone_6S_Plus,
+iPhone_SE,
+iPhone_7,
+iPhone_7_Plus,
+MI,小米手机
+,小米手机
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+HUAWEI,华为手机
