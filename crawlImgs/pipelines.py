@@ -5,6 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import scrapy
+import urllib
 import hashlib
 from scrapy.utils.python import to_bytes
 from scrapy.http import Request
@@ -16,7 +17,6 @@ class MyImagesPipeline(ImagesPipeline):
         url = item['image_urls'][0]
         request = scrapy.Request(url)
         request.meta['word'] = item['image_label']
-        # print item['image_label']
         yield request
 
     def item_completed(self, results, item, info):
@@ -44,6 +44,7 @@ class MyImagesPipeline(ImagesPipeline):
         else:
             url = request.url
         image_guid = hashlib.sha1(to_bytes(url)).hexdigest()  # change to request.url after deprecation
-        word = request.meta['word']
-        # word = urllib.unquote(word).decode('utf-8')
+        word = str(request.meta['word']).split('word=')[-1]
+        word = urllib.unquote(word).decode('utf-8')
+        print(word+"/%s.jpg" % image_guid)
         return word + '/%s.jpg' % (image_guid)

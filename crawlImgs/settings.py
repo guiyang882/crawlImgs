@@ -10,7 +10,7 @@ DEFAULT_ITEM_CLASS = 'crawlImgs.items.CrawlimgsItem'
 ITEM_PIPELINES = {'crawlImgs.pipelines.MyImagesPipeline': 1}
 
 DOWNLOADER_MIDDLEWARES = {
-        'scrapy.downloadermiddleware.useragent.UserAgentMiddleware' : None,
+        'scrapy.downloadermiddleware.useragent.UserAgentMiddleware': None,
         'crawlImgs.rotate_useragent.RotateUserAgentMiddleware': 100,
         # 'dirbot.rotate_middlewares.ProxyMiddleware': 200,
     }
@@ -25,8 +25,8 @@ IMAGES_EXPIRES = 90
 #     'big': (800, 800),
 # }
 
-IMAGES_MIN_HEIGHT = 200
-IMAGES_MIN_WIDTH = 200
+IMAGES_MIN_HEIGHT = 300
+IMAGES_MIN_WIDTH = 300
 
 # IMAGES_URLS_FIELD = 'field_name_for_your_images_urls'
 # IMAGES_RESULT_FIELD = 'field_name_for_your_processed_images'
@@ -45,7 +45,7 @@ REDIRECT_ENABLED = True
 AJAXCRAWL_ENABLED = True
 
 # set log level
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'ERROR'
 
 # concurrence
 CONCURRENT_REQUESTS = 60
