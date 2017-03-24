@@ -51,7 +51,7 @@ LOG_LEVEL = 'ERROR'
 CONCURRENT_REQUESTS = 60
 
 # delay for address
-DOWNLOAD_DELAY = 2   # 1 s of delay
+DOWNLOAD_DELAY = 3   # 1 s of delay
 CONCURRENT_REQUESTS_PER_DOMAIN = 2
 
 # delay for ip

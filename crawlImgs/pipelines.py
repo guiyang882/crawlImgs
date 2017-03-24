@@ -10,6 +10,9 @@ import hashlib
 from scrapy.utils.python import to_bytes
 from scrapy.http import Request
 from scrapy.pipelines.images import ImagesPipeline
+import datetime
+import pickle
+import os
 
 class MyImagesPipeline(ImagesPipeline):
 
@@ -46,5 +49,5 @@ class MyImagesPipeline(ImagesPipeline):
         image_guid = hashlib.sha1(to_bytes(url)).hexdigest()  # change to request.url after deprecation
         word = str(request.meta['word']).split('word=')[-1]
         word = urllib.unquote(word).decode('utf-8')
-        print(word+"/%s.jpg" % image_guid)
+        print(word + "/%s.jpg" % image_guid)
         return word + '/%s.jpg' % (image_guid)
