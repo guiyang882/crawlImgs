@@ -15,7 +15,7 @@ DOWNLOADER_MIDDLEWARES = {
         # 'dirbot.rotate_middlewares.ProxyMiddleware': 200,
     }
 
-IMAGES_STORE = '/Volumes/Ubuntu/spider/'
+IMAGES_STORE = '/home/guiyang/Downloads/spider/'
 IMAGES_LABEL = ''
 
 IMAGES_EXPIRES = 90
@@ -45,7 +45,7 @@ REDIRECT_ENABLED = True
 AJAXCRAWL_ENABLED = True
 
 # set log level
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'ERROR'
 
 # concurrence
 CONCURRENT_REQUESTS = 60

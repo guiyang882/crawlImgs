@@ -52,5 +52,5 @@ class MyImagesPipeline(ImagesPipeline):
             word = urllib.unquote(word).decode('utf-8')
         except Exception as ex:
             word = urllib.parse.unquote(word)
-        print(word + "/%s.jpg" % image_guid)
+        #print(word + "/%s.jpg" % image_guid)
         return word + '/%s.jpg' % (image_guid)

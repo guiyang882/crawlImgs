@@ -39,7 +39,6 @@ class ThreesixzeroimgSpider(scrapy.Spider):
     def __init__(self, category=None, *args, **kwargs):
         super(ThreesixzeroimgSpider, self).__init__(*args,**kwargs)
         self.start_urls = []
-        print(category)
         self.wordList = getPartLabel(category)
         for cell in self.wordList:
             for pagenum in range(int(totalPage)):

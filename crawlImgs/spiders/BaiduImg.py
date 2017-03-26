@@ -38,13 +38,10 @@ class BaiduimgSpider(scrapy.Spider):
     def __init__(self, category=None, *args, **kwargs):
         super(BaiduimgSpider, self).__init__(*args,**kwargs)
         self.start_urls = []
-        print(category)
         self.wordList = getPartLabel(category)
         for cell in self.wordList:
-            print(cell)
             for pagenum in range(int(totalPage)):
                 self.start_urls.append(getURL(pagenum * 60, cell))
-        print(self.start_urls)
 
     def getName(self, word):
         try:
