@@ -18,20 +18,26 @@ class MyImagesPipeline(ImagesPipeline):
 
     def get_media_requests(self, item, info):
         url = item['image_urls'][0]
-        request = scrapy.Request(url)
-        request.meta['word'] = item['image_label']
+        try:
+            request = scrapy.Request(url)
+        except Exception as es:
+            print(es)
+            request = None
+        if request != None:
+            request.meta['word'] = item['image_label']
         yield request
 
     def item_completed(self, results, item, info):
-        for ok, x in results:
-            if ok:
-                image_path = x['path']
-                item['image_paths'] = image_path
-                # print(item["image_label"] + "," + item["image_paths"] + "," + item["image_urls"][0] + "\n")
-                with open("image_infos.csv", 'a') as handle:
-                    handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
+        if results != None:
+            for ok, x in results:
+                if ok:
+                    image_path = x['path']
+                    item['image_paths'] = image_path
+                    # print(item["image_label"] + "," + item["image_paths"] + "," + item["image_urls"][0] + "\n")
+                    with open("image_infos.csv", 'a') as handle:
+                        handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
 
-                return item
+                    return item
 
     def file_path(self, request, response=None, info=None):
         def _warn():
