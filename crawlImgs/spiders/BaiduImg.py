@@ -51,7 +51,7 @@ class BaiduimgSpider(scrapy.Spider):
 
     def parse(self, response):
         sites = json.loads(response.body_as_unicode())
-        label = str(response.url).strip().split("word=1")[-1]
+        label = str(response.url).strip().split("word=")[-1]
         for site in sites["imgs"]:
             image = CrawlimgsItem()
             image["image_urls"] = [site["objURL"]]
