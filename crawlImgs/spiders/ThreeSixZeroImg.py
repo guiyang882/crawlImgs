@@ -5,7 +5,7 @@ import urllib
 import json
 from crawlImgs.items import CrawlimgsItem
 
-totalPage = 10
+totalPage = 5
 
 def getURL(pagenum, word):
     return 'http://image.so.com/j?src=srp&correct=%E5%8A%A8%E7%89%A9&sn=60&pn=' + str(pagenum) +  '&q=' + word
@@ -26,7 +26,7 @@ def getPartLabel(partID):
             cnt = 0
             for line in handle.readlines():
                 cnt += 1
-                if cnt / 20 == partID:
+                if int(cnt / 20) == partID:
                     line = line.strip().split(",")
                     wordList.extend([item for item in line if len(item) > 0])
     return wordList
@@ -47,7 +47,10 @@ class ThreesixzeroimgSpider(scrapy.Spider):
         print(self.start_urls)
 
     def getName(self, word):
-        ret_word = urllib.unquote(word).decode('utf-8')
+        try:
+            ret_word = urllib.unquote(word).decode('utf-8')
+        except Exception as ex:
+            ret_word = urllib.parse.unquote(word)
         return ret_word
 
     def parse(self, response):

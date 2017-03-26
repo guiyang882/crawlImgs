@@ -5,7 +5,7 @@ import urllib
 import json
 from crawlImgs.items import CrawlimgsItem
 
-totalPage = 10
+totalPage = 5
 
 def getURL(pagenum, word):
     return 'https://image.baidu.com/search/avatarjson?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1488547724906_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&ctd=1488547724907%5E00_1002X1024&rn=200&pn=' + str(pagenum) +  '&word=' + word
@@ -26,7 +26,7 @@ def getPartLabel(partID):
             cnt = 0
             for line in handle.readlines():
                 cnt += 1
-                if cnt / 20 == partID:
+                if int(cnt / 20) == partID:
                     line = line.strip().split(",")
                     wordList.extend([item for item in line if len(item) > 0])
     return wordList
@@ -41,12 +41,17 @@ class BaiduimgSpider(scrapy.Spider):
         print(category)
         self.wordList = getPartLabel(category)
         for cell in self.wordList:
+            print(cell)
             for pagenum in range(int(totalPage)):
                 self.start_urls.append(getURL(pagenum * 60, cell))
         print(self.start_urls)
 
     def getName(self, word):
-        ret_word = urllib.unquote(word).decode('utf-8')
+        try:
+            ret_word = urllib.unquote(word).decode('utf-8')
+        except Exception as ex:
+            # ret_word = urllib.parse.unquote(word).decode("utf-8")
+            ret_word = urllib.parse.unquote(word)
         return ret_word
 
     def parse(self, response):

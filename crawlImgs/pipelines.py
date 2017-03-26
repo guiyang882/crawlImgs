@@ -27,7 +27,7 @@ class MyImagesPipeline(ImagesPipeline):
             if ok:
                 image_path = x['path']
                 item['image_paths'] = image_path
-
+                # print(item["image_label"] + "," + item["image_paths"] + "," + item["image_urls"][0] + "\n")
                 with open("image_infos.csv", 'a') as handle:
                     handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
 
@@ -48,6 +48,9 @@ class MyImagesPipeline(ImagesPipeline):
             url = request.url
         image_guid = hashlib.sha1(to_bytes(url)).hexdigest()  # change to request.url after deprecation
         word = str(request.meta['word']).split('word=')[-1]
-        word = urllib.unquote(word).decode('utf-8')
+        try:
+            word = urllib.unquote(word).decode('utf-8')
+        except Exception as ex:
+            word = urllib.parse.unquote(word)
         print(word + "/%s.jpg" % image_guid)
         return word + '/%s.jpg' % (image_guid)
