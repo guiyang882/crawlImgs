@@ -25,7 +25,7 @@ class MyImagesPipeline(ImagesPipeline):
             request = None
         if request != None:
             request.meta['word'] = item['image_label']
-        yield request
+            yield request
 
     def item_completed(self, results, item, info):
         if results != None:

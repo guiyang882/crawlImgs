@@ -34,7 +34,6 @@ def getPartLabel(partID):
 class ThreesixzeroimgSpider(scrapy.Spider):
     name = "ThreeSixZeroImg"
     allowed_domains = ["image.so.com"]
-    start_urls = ['http://image.so.com/']
 
     def __init__(self, category=None, *args, **kwargs):
         super(ThreesixzeroimgSpider, self).__init__(*args,**kwargs)
@@ -43,7 +42,7 @@ class ThreesixzeroimgSpider(scrapy.Spider):
         for cell in self.wordList:
             for pagenum in range(int(totalPage)):
                 self.start_urls.append(getURL(pagenum * 60, cell))
-        print(self.start_urls)
+        #print(self.start_urls)
 
     def getName(self, word):
         try:
