@@ -15,7 +15,7 @@ DOWNLOADER_MIDDLEWARES = {
         # 'dirbot.rotate_middlewares.ProxyMiddleware': 200,
     }
 
-IMAGES_STORE = '/home/guiyang/Downloads/spider/scene_keypoint/'
+IMAGES_STORE = '/home/guiyang/Downloads/tmp/'
 IMAGES_LABEL = ''
 
 IMAGES_EXPIRES = 90

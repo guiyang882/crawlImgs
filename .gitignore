@@ -2,3 +2,6 @@
 *.csv
 *.log
 *.bak
+crawlImgs/__pycache__/
+wlImgs/spiders/__pycache__/
+*.pyc

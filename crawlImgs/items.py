@@ -15,3 +15,10 @@ class CrawlimgsItem(scrapy.Item):
     images = scrapy.Field()
     image_paths = scrapy.Field()
     image_label = scrapy.Field()
+    # image_fromPageTitle = scrapy.Field()
+    image_fromURL = scrapy.Field()
+    image_fromURLHost = scrapy.Field()
+    image_height = scrapy.Field()
+    image_width = scrapy.Field()
+    image_crawDateTime = scrapy.Field(serializer=str)
+    
