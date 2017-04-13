@@ -3,6 +3,7 @@ import scrapy
 import os
 import urllib
 import json
+from pprint import pprint
 from crawlImgs.items import CrawlimgsItem
 
 totalPage = 5
@@ -54,8 +55,14 @@ class ThreesixzeroimgSpider(scrapy.Spider):
     def parse(self, response):
         sites = json.loads(response.body_as_unicode())
         label = str(response.url).strip().split("q=")[-1]
+        pprint(sites)
         for site in sites["list"]:
             image = CrawlimgsItem()
             image["image_urls"] = [site["img"]]
             image["image_label"] = self.getName(label)
+            image["image_fromURL"] = site["link"]
+            image["image_height"] = site["height"]
+            image["image_width"] = site["width"]
+            image["image_fromURLHost"] = site["dspurl"]
+            image["image_crawDateTime"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
             yield image
