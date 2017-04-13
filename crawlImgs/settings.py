@@ -104,3 +104,9 @@ PROXIES = [
     # {'ip_port': '124.88.67.21:843', 'user_pass': ''},
     # {'ip_port': '124.88.67.10:80', 'user_pass': ''},
 ]
+
+
+MONGODB_SERVER = '10.18.103.154'
+MONGODB_PORT = 27017
+MONGODB_DB = 'spider'
+MONGODB_COLLECTION = ''

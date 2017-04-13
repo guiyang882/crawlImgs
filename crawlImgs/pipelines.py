@@ -13,6 +13,20 @@ from scrapy.pipelines.images import ImagesPipeline
 import datetime
 import pickle
 import os
+import pymongo
+from scrapy.conf import settings
+from scrapy.exceptions import DropItem
+
+class DataManager():
+    def __init__(self):
+        connection = pymongo.Connection(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+        spiderdb = connection[settings["MONGODB_DB"]]
+        self._collection = spiderdb[settings["MONGODB_COLLECTION"]]
+        self._saveImgList = []
+
+    def insertSpiderItemBySingle(self, item, isBatch = False):
+
+        pass
 
 class MyImagesPipeline(ImagesPipeline):
 
