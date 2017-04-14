@@ -3,6 +3,8 @@ import scrapy
 import os
 import urllib
 import json
+import codecs
+import datetime
 from pprint import pprint
 from crawlImgs.items import CrawlimgsItem
 
@@ -13,7 +15,7 @@ def getURL(pagenum, word):
 
 def getWordList(file_path):
     wordList = []
-    with open(file_path, "r") as handle:
+    with codecs.open(file_path, "r", 'utf-8') as handle:
         for line in handle.readlines():
             line = line.strip().split(',')
             wordList.append((line[0], line[1]))
@@ -23,7 +25,7 @@ def getPartLabel(partID):
     partID = int(partID)
     wordList = []
     if os.path.exists("./labels.csv"):
-        with open("./labels.csv", "r") as handle:
+        with codecs.open("./labels.csv", "r", 'utf-8') as handle:
             cnt = 0
             for line in handle.readlines():
                 cnt += 1
@@ -55,7 +57,7 @@ class ThreesixzeroimgSpider(scrapy.Spider):
     def parse(self, response):
         sites = json.loads(response.body_as_unicode())
         label = str(response.url).strip().split("q=")[-1]
-        pprint(sites)
+        #pprint(sites)
         for site in sites["list"]:
             image = CrawlimgsItem()
             image["image_urls"] = [site["img"]]

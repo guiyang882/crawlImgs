@@ -15,7 +15,7 @@ DOWNLOADER_MIDDLEWARES = {
         # 'dirbot.rotate_middlewares.ProxyMiddleware': 200,
     }
 
-IMAGES_STORE = '/home/guiyang/Downloads/tmp/'
+IMAGES_STORE = '/root/SPIDERIMAGESDB/'
 IMAGES_LABEL = ''
 
 IMAGES_EXPIRES = 90
@@ -105,8 +105,8 @@ PROXIES = [
     # {'ip_port': '124.88.67.10:80', 'user_pass': ''},
 ]
 
-
 MONGODB_SERVER = '10.18.103.154'
 MONGODB_PORT = 27017
-MONGODB_DB = 'spider'
-MONGODB_COLLECTION = ''
+MONGODB_DB = 'spiderdb'
+MONGODB_COLLECTION = 'imagetable'
+MONGODB_ON = "True"

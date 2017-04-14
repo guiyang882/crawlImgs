@@ -13,22 +13,55 @@ from scrapy.pipelines.images import ImagesPipeline
 import datetime
 import pickle
 import os
-import pymongo
+from pymongo import MongoClient
 from scrapy.conf import settings
 from scrapy.exceptions import DropItem
 
+is_Save2Mongo = True
+if settings["MONGODB_ON"] == "False":
+    is_Save2Mongo = False
+
 class DataManager():
     def __init__(self):
-        connection = pymongo.Connection(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
-        spiderdb = connection[settings["MONGODB_DB"]]
+        mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+        spiderdb = mc[settings["MONGODB_DB"]]
         self._collection = spiderdb[settings["MONGODB_COLLECTION"]]
         self._saveImgList = []
 
-    def insertSpiderItemBySingle(self, item, isBatch = False):
+    def insertSpiderItem(self, item, isBatch = False):
+        '''
+        如果参数选择的是isBatch, 
+        那么需要调用 flush2MongoDB() 将数据直接写入到DB中
+        '''
+        imageItem = [{
+            "imageurls":item["image_urls"][0],
+            "imagepath":item["image_paths"],
+            "imagelabel":item["image_label"],
+            "imagefromurl":item["image_fromURL"],
+            "imagefromurlhost":item["image_fromURLHost"],
+            "imageheight":item["image_height"],
+            "imagewidth":item["image_width"],
+            "imagecrawdatetime":item["image_crawDateTime"]
+        }]
+        if isBatch == False:
+            self._collection.insert_many(imageItem)
+        else:
+            self._saveImgList.extend(imageItem)
+    
+    def flush2MongoDB(self):
+        if len(self._saveImgList) > 0:
+            self._collection.insert_many(self._saveImgList)
+            self._saveImgList = []
 
-        pass
+    def getCachedItemSize(self):
+        return len(self._saveImgList)
+
+dataObj = DataManager()
 
 class MyImagesPipeline(ImagesPipeline):
+    def __init__(self, store_uri, download_func=None, settings=None):
+        super(MyImagesPipeline, self).__init__(store_uri, download_func, settings)
+        print("######## pipelines #####")
 
     def get_media_requests(self, item, info):
         url = item['image_urls'][0]
@@ -50,7 +83,10 @@ class MyImagesPipeline(ImagesPipeline):
                     # print(item["image_label"] + "," + item["image_paths"] + "," + item["image_urls"][0] + "\n")
                     with open("image_infos.csv", 'a') as handle:
                         handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
-
+                    if is_Save2Mongo == True:
+                        dataObj.insertSpiderItem(item, isBatch=True)
+                        if dataObj.getCachedItemSize() > 500:
+                            dataObj.flush2MongoDB()
                     return item
 
     def file_path(self, request, response=None, info=None):
