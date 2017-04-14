@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import scrapy
 import urllib
 import hashlib
@@ -12,6 +8,7 @@ from scrapy.http import Request
 from scrapy.pipelines.images import ImagesPipeline
 import datetime
 import pickle
+import codecs
 import os
 from pymongo import MongoClient
 from scrapy.conf import settings
@@ -27,6 +24,10 @@ class DataManager():
         spiderdb = mc[settings["MONGODB_DB"]]
         self._collection = spiderdb[settings["MONGODB_COLLECTION"]]
         self._saveImgList = []
+    
+    def __del__(self):
+        if len(self._saveImgList) > 0:
+            self.flush2MongoDB()
 
     def insertSpiderItem(self, item, isBatch = False):
         '''
@@ -80,8 +81,7 @@ class MyImagesPipeline(ImagesPipeline):
                 if ok:
                     image_path = x['path']
                     item['image_paths'] = image_path
-                    # print(item["image_label"] + "," + item["image_paths"] + "," + item["image_urls"][0] + "\n")
-                    with open("image_infos.csv", 'a') as handle:
+                    with codecs.open("image_infos.csv", 'a', 'utf-8') as handle:
                         handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
                     if is_Save2Mongo == True:
                         dataObj.insertSpiderItem(item, isBatch=True)
