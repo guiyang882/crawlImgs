@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 import scrapy
 import os
 import urllib
@@ -7,7 +8,7 @@ import codecs
 import datetime
 from pprint import pprint
 from crawlImgs.items import CrawlimgsItem
-from utils import getPartLabel 
+from crawlImgs.spiders.utils import getPartLabel 
 
 def getURL(pagenum, word):
     return 'http://image.so.com/j?src=srp&correct=%E5%8A%A8%E7%89%A9&sn=60&pn=' + str(pagenum) +  '&q=' + word
@@ -22,7 +23,7 @@ class ThreesixzeroimgSpider(scrapy.Spider):
         self.start_urls = []
         self.wordList, self.totalPage = getPartLabel(keywordjson, category)
         for cell in self.wordList:
-            for pagenum in range(int(totalPage)):
+            for pagenum in range(self.totalPage):
                 self.start_urls.append(getURL(pagenum * 60, cell))
 
     def getName(self, word):

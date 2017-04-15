@@ -63,10 +63,10 @@ def getPartLabel(keywordfile, partID):
         wordjson = json.load(handle)
         tmplist = parseJsonTemplate(wordjson)
         cnt = 0
-        for line in tmplist 
+        for line in tmplist:
             cnt += 1
             if int(cnt / 20) == partID:
-                wordlist.append(line)
+                wordlist.extend(line)
         totalPage = wordjson["fetchPageNums"]
         if isinstance(totalPage, str):
             totalPage = int(totalPage)

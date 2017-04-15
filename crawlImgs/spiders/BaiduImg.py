@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 import os
 import scrapy
 import urllib
@@ -7,7 +8,7 @@ import datetime
 import codecs
 from pprint import pprint
 from crawlImgs.items import CrawlimgsItem
-from utils import getPartLabel
+from crawlImgs.spiders.utils import getPartLabel
 
 def getURL(pagenum, word):
     return 'https://image.baidu.com/search/avatarjson?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1488547724906_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&ctd=1488547724907%5E00_1002X1024&rn=200&pn=' + str(pagenum) +  '&word=' + word
