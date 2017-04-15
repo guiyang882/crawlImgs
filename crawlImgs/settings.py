@@ -5,31 +5,19 @@
 SPIDER_MODULES = ['crawlImgs.spiders']
 NEWSPIDER_MODULE = 'crawlImgs.spiders'
 DEFAULT_ITEM_CLASS = 'crawlImgs.items.CrawlimgsItem'
-
-# ITEM_PIPELINES = {'dirbot.pipelines.FilterWordsPipeline': 1}
-ITEM_PIPELINES = {'crawlImgs.pipelines.MyImagesPipeline': 1}
+ITEM_PIPELINES = {
+    'crawlImgs.pipelines.MyImagesPipeline': 1
+}
 
 DOWNLOADER_MIDDLEWARES = {
         'scrapy.downloadermiddleware.useragent.UserAgentMiddleware': None,
         'crawlImgs.rotate_useragent.RotateUserAgentMiddleware': 100,
-        # 'dirbot.rotate_middlewares.ProxyMiddleware': 200,
     }
 
-IMAGES_STORE = '/root/SPIDERIMAGESDB/'
-IMAGES_LABEL = ''
-
+IMAGES_STORE = '/root/SPIDERIMAGESDB/DATASOURCE/'
 IMAGES_EXPIRES = 90
-
-# IMAGES_THUMBS = {
-#     'small': (400, 400),
-#     'big': (800, 800),
-# }
-
 IMAGES_MIN_HEIGHT = 200
 IMAGES_MIN_WIDTH = 200
-
-# IMAGES_URLS_FIELD = 'field_name_for_your_images_urls'
-# IMAGES_RESULT_FIELD = 'field_name_for_your_processed_images'
 
 # forbid cookie
 COOKIES_ENABLED = False
@@ -40,7 +28,6 @@ DOWNLOAD_TIMEOUT = 60
 
 # close redirect
 REDIRECT_ENABLED = True
-
 # Ajax crawl
 AJAXCRAWL_ENABLED = True
 
@@ -58,13 +45,9 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 2
 # CONCURRENT_REQUESTS_PER_IP = 8
 
 # auto delay
-
 AUTOTHROTTLE_ENABLED = True
-
 AUTOTHROTTLE_START_DELAY = 2
-
 AUTOTHROTTLE_MAX_DELAY = 10
-
 AUTOTHROTTLE_DEBUG = True
 
 # agent

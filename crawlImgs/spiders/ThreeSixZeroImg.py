@@ -7,45 +7,23 @@ import codecs
 import datetime
 from pprint import pprint
 from crawlImgs.items import CrawlimgsItem
-
-totalPage = 5
+from utils import getPartLabel 
 
 def getURL(pagenum, word):
     return 'http://image.so.com/j?src=srp&correct=%E5%8A%A8%E7%89%A9&sn=60&pn=' + str(pagenum) +  '&q=' + word
-
-def getWordList(file_path):
-    wordList = []
-    with codecs.open(file_path, "r", 'utf-8') as handle:
-        for line in handle.readlines():
-            line = line.strip().split(',')
-            wordList.append((line[0], line[1]))
-    return wordList
-
-def getPartLabel(partID):
-    partID = int(partID)
-    wordList = []
-    if os.path.exists("./labels.csv"):
-        with codecs.open("./labels.csv", "r", 'utf-8') as handle:
-            cnt = 0
-            for line in handle.readlines():
-                cnt += 1
-                if int(cnt / 20) == partID:
-                    line = line.strip().split(",")
-                    wordList.extend([item for item in line if len(item) > 0])
-    return wordList
 
 class ThreesixzeroimgSpider(scrapy.Spider):
     name = "ThreeSixZeroImg"
     allowed_domains = ["image.so.com"]
 
-    def __init__(self, category=None, *args, **kwargs):
+    def __init__(self, keywordjson=None, category=None, *args, **kwargs):
         super(ThreesixzeroimgSpider, self).__init__(*args,**kwargs)
+        self.totalPage = 5
         self.start_urls = []
-        self.wordList = getPartLabel(category)
+        self.wordList, self.totalPage = getPartLabel(keywordjson, category)
         for cell in self.wordList:
             for pagenum in range(int(totalPage)):
                 self.start_urls.append(getURL(pagenum * 60, cell))
-        #print(self.start_urls)
 
     def getName(self, word):
         try:
@@ -57,7 +35,6 @@ class ThreesixzeroimgSpider(scrapy.Spider):
     def parse(self, response):
         sites = json.loads(response.body_as_unicode())
         label = str(response.url).strip().split("q=")[-1]
-        #pprint(sites)
         for site in sites["list"]:
             image = CrawlimgsItem()
             image["image_urls"] = [site["img"]]

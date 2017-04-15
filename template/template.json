@@ -1,0 +1,27 @@
+{
+    "抓取的页面数量/fetchPageNums": 10,
+    "抓取任务名称/taskName": "CLASSIFICATION 或 DETECTION 或 SCENE 或 OTHERS",
+    "抓取的关键词列表/fetchKeyWords": {
+        "keyword01": [
+            "扩展词01",
+            "扩展词02",
+            "扩展词03"
+        ],
+        "keyword02": [
+            "扩展词01",
+            "扩展词02",
+            "扩展词03"
+        ],
+        "keyword03": [
+            "扩展词01",
+            "扩展词02",
+            "扩展词03"
+        ],
+        "keyword04": [],
+        "keyword05": [
+            "扩展词01",
+            "扩展词02",
+            "扩展词03"
+        ]
+    }
+}
