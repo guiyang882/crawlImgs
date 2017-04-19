@@ -1,0 +1,7 @@
+{
+    "fetchPageNums": 6,
+    "taskName": "CLASSIFICATION",
+    "fetchKeyWords": {
+        "挖掘机": ["工地","施工","建筑","机械"]
+    }
+}

@@ -5,8 +5,9 @@ if [ $# != 1 ];then
 else
     for ind in $(seq 0 12)
     do
-        scrapy crawl BaiduImg -a keywordjson=$1 -a category=$ind > run.log 2>&1 &
-        scrapy crawl ThreeSixZeroImg -a keywordjson=$1 -a category=$ind > run.log 2>&1 &
+        #scrapy crawl BaiduImg -a keywordjson=$1 -a category=$ind > run.log 2>&1 &
+        #scrapy crawl ThreeSixZeroImg -a keywordjson=$1 -a category=$ind > run.log 2>&1 &
+        scrapy crawl BingSearchImg -a keywordjson=$1 -a category=$ind > run.log 2>&1 &
     done
 fi
 
