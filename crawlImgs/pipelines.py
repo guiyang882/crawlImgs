@@ -28,6 +28,7 @@ class DataManager():
     def __del__(self):
         if len(self._saveImgList) > 0:
             self.flush2MongoDB()
+        self.updateByDistinct()
 
     def insertSpiderItem(self, item, isBatch = False):
         '''
@@ -56,6 +57,16 @@ class DataManager():
 
     def getCachedItemSize(self):
         return len(self._saveImgList)
+
+    def updateByDistinct(self):
+        itemlist = list(self._collection.distinct("imagepath"))
+        for item in itemlist:
+            tmplist = list(self._collection.find({"imagepath":item}).sort([
+                                ("imagecrawdatetime", pymongo.ASCENDING)
+                            ]))
+            if len(tmplist) > 1:
+                for i in range(1, len(tmplist)):
+                    self._collection.delete_many(tmplist[i])
 
 dataObj = DataManager()
 
