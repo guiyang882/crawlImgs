@@ -28,7 +28,7 @@ class DataManager():
     def __del__(self):
         if len(self._saveImgList) > 0:
             self.flush2MongoDB()
-        self.updateByDistinct()
+        #self.updateByDistinct()
 
     def insertSpiderItem(self, item, isBatch = False):
         '''
@@ -94,9 +94,11 @@ class MyImagesPipeline(ImagesPipeline):
                     item['image_paths'] = image_path
                     with codecs.open("image_infos.csv", 'a', 'utf-8') as handle:
                         handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
+                    print("is_Save2Mongo ", is_Save2Mongo)
                     if is_Save2Mongo == True:
                         dataObj.insertSpiderItem(item, isBatch=True)
-                        if dataObj.getCachedItemSize() > 500:
+                        print("get Cached ItemSize is ", dataObj.getCachedItemSize())
+                        if dataObj.getCachedItemSize() > 100:
                             dataObj.flush2MongoDB()
                     return item
 
