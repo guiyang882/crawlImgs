@@ -108,27 +108,93 @@ def loadData2DBfromThird():
             image_guid = hashlib.sha1(to_bytes(imgurl)).hexdigest()
             image_guid += "."
             image_guid += name.split(".")[-1]
-            shutil.copyfile(srcprefix+name, destprefix+image_guid)
-            img = cv2.imread(srcprefix+name)
-            height, width = img.shape[:2]
-            item = {
-                "image_urls": imgurl,
-                "image_paths": "第三方数据/体育运动/" + image_guid,
-                "image_fromURL": pageurl,
-                "image_height": height,
-                "image_width": width
-            }
-            imageItem = insertSpiderItem(item=item)
-            dbtable.insert_many(imageItem)
+            try:
+                shutil.copyfile(srcprefix+name, destprefix+image_guid)
+                img = cv2.imread(srcprefix+name)
+                height, width = img.shape[:2]
+                item = {
+                    "image_urls": imgurl,
+                    "image_paths": "第三方数据/体育运动/" + image_guid,
+                    "image_fromURL": pageurl,
+                    "image_height": height,
+                    "image_width": width
+                }
+                imageItem = insertSpiderItem(item=item)
+                dbtable.insert_many(imageItem)
+            except Exception as es:
+                print(srcprefix+name, es)
 
 def mergeOldData2DB():
-    pass
+    filepath = ""
+    if not os.path.exists(filepath):
+        raise IOError(filepath + " not exists !")
 
-def addImageMD5():
+    def insertSpiderItem(item):
+        '''
+        如果参数选择的是isBatch,
+        那么需要调用 flush2MongoDB() 将数据直接写入到DB中
+        '''
+        imageItem = [{
+            "imageurls":item["image_urls"],
+            "imagepath":item["image_paths"],
+            "imagelabel":"",
+            "imagefromurl":item["image_fromURL"],
+            "imagefromurlhost":item["image_fromURL"],
+            "imageheight":item["image_height"],
+            "imagewidth":item["image_width"],
+            "imagecrawdatetime": "Fri, 31 Mar 2017 15:01:28 GMT"
+        }]
+        return imageItem
+
+    srcprefix = "/root/SPIDERIMAGESDB/DATASOURCE/"
     mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
     spiderdb = mc[settings["MONGODB_DB"]]
     dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+    with codecs.open(filepath, 'r', 'utf-8') as handle:
+        for line in handle.readlines():
+            _, partpath, imgurl = line.strip().split(",")
+            if not os.path.exists(srcprefix+partpath):
+                continue
+            try:
+                img = cv2.imread(srcprefix+partpath)
+                height, width = img.shape[:2]
+                item = {
+                    "image_urls": imgurl,
+                    "image_paths": partpath,
+                    "image_fromURL": imgurl,
+                    "image_height": height,
+                    "image_width": width
+                }
+                imageItem = insertSpiderItem(item=item)
+                dbtable.insert_many(imageItem)
+            except Exception as es:
+                print(es)
 
+def addImageMD5():
+    # mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    # spiderdb = mc[settings["MONGODB_DB"]]
+    # dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+    def _imgdiff(srcimg, w, h):
+        diff = []
+        for i in range(h):
+            for j in range(w-1):
+                c = srcimg[i,j]
+                rc = srcimg[i,j+1]
+                if c > rc:
+                    diff.append('1')
+                else:
+                    diff.append('0')
+            diff.append('0')
+        imgKey = ''.join(diff)
+        print(imgKey)
+
+    file1 = "/Users/liuguiyang/Desktop/test.jpg"
+    img1 = cv2.imread(file1)
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    width, height = 8, 9
+    gray1 = cv2.resize(gray1, (width, height), interpolation=cv2.INTER_CUBIC)
+    print(gray1.dtype)
+    _imgdiff(gray1, width, height)
 
 if __name__ == '__main__':
-    loadData2DBfromThird()
+    addImageMD5()
