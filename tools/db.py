@@ -197,4 +197,4 @@ def addImageMD5():
     _imgdiff(gray1, width, height)
 
 if __name__ == '__main__':
-    addImageMD5()
+    loadData2DBfromThird()
