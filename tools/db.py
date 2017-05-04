@@ -154,7 +154,12 @@ def mergeOldData2DB():
     dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
     with codecs.open(filepath, 'r', 'utf-8') as handle:
         for line in handle.readlines():
-            _, partpath, imgurl = line.strip().split(",")
+            line = line.strip().split(',')
+            if len(line) == 3:
+                _, partpath, imgurl = line[0], line[1], line[2]
+            else:
+                partpath = line[1]
+                imgurl = ",".join(line[2:])
             if not os.path.exists(srcprefix+partpath):
                 continue
             try:
@@ -202,3 +207,4 @@ def addImageMD5():
 
 if __name__ == '__main__':
     mergeOldData2DB()
+    updateRemoveDistinct()
