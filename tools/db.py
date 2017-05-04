@@ -106,6 +106,8 @@ def loadData2DBfromThird():
                 continue
             # 更改图像的原始名字
             image_guid = hashlib.sha1(to_bytes(imgurl)).hexdigest()
+            image_guid += "."
+            image_guid += name.split(".")[-1]
             shutil.copyfile(srcprefix+name, destprefix+image_guid)
             img = cv2.imread(srcprefix+name)
             height, width = img.shape[:2]
@@ -118,6 +120,15 @@ def loadData2DBfromThird():
             }
             imageItem = insertSpiderItem(item=item)
             dbtable.insert_many(imageItem)
+
+def mergeOldData2DB():
+    pass
+
+def addImageMD5():
+    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    spiderdb = mc[settings["MONGODB_DB"]]
+    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+
 
 if __name__ == '__main__':
     loadData2DBfromThird()
