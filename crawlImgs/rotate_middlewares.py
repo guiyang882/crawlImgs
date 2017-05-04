@@ -1,6 +1,6 @@
 import random
 import base64
-from settings import PROXIES
+from crawlImgs.settings import PROXIES
 
 class RandomUserAgent(object):
     """Randomly rotate user agents based on a list of predefined ones"""
@@ -10,8 +10,8 @@ class RandomUserAgent(object):
     @classmethod
     def from_crawler(cls, crawler):
         return cls(crawler.settings.getlist('USER_AGENTS'))
+
     def process_request(self, request, spider):
-        #print "**************************" + random.choice(self.agents)
         request.headers.setdefault('User-Agent', random.choice(self.agents))
 
 class ProxyMiddleware(object):
@@ -21,7 +21,7 @@ class ProxyMiddleware(object):
             request.meta['proxy'] = "http://%s" % proxy['ip_port']
             encoded_user_pass = base64.encodestring(proxy['user_pass'])
             request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
-            print "**************ProxyMiddleware have pass************" + proxy['ip_port']
+            print("**************ProxyMiddleware have pass************" + proxy['ip_port'])
         else:
-            print "**************ProxyMiddleware no pass************" + proxy['ip_port']
+            print("**************ProxyMiddleware no pass************" + proxy['ip_port'])
             request.meta['proxy'] = "http://%s" % proxy['ip_port']

@@ -10,6 +10,7 @@ import datetime
 import pickle
 import codecs
 import os
+import pymongo
 from pymongo import MongoClient
 from scrapy.conf import settings
 from scrapy.exceptions import DropItem
