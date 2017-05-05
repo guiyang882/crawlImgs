@@ -35,8 +35,11 @@ def main():
         image = face_recognition.load_image_file(filepath)
         face_locations = face_recognition.face_locations(image)
         if len(face_locations) > 0:
-            print("{} face(s) in {}.".format(len(face_locations), filepath))
-            break
+            dbtable.update({"_id": item["_id"]}, {'$set': {"exists_person": 1}})
+        else:
+            dbtable.update({"_id": item["_id"]}, {'$set': {"exists_person": 0}})
+        print(item["_id"])
+        break
 
 if __name__ == '__main__':
     main()
