@@ -71,8 +71,10 @@ class DataManager():
         for item in itemlist:
             if isinstance(item, dict) and "cnts" in item.keys():
                 if item["cnts"] > 1:
-                    print(item, type(item))
-            break
+                    tmplist = list(self._collection.find({"imagefromurl": item["_id"]}).sort([("imagecrawdatetime", pymongo.ASCENDING)]))
+                    print(item)
+                    for i in range(1, len(tmplist)):
+                        self._collection.delete_many(tmplist[i])
 
 def updateRemoveDistinct():
     dataObj = DataManager()
