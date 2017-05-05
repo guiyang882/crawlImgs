@@ -11,7 +11,13 @@ import os
 import face_recognition
 
 from pymongo import MongoClient
-from tools.db import settings as DBSETTINGS
+
+DBSETTINGS = {
+    "MONGODB_SERVER":"10.18.103.205",
+    "MONGODB_PORT":27017,
+    "MONGODB_DB":"spiderdb",
+    "MONGODB_COLLECTION":"imagetable"
+}
 
 mc = MongoClient(DBSETTINGS["MONGODB_SERVER"], DBSETTINGS["MONGODB_PORT"])
 spiderdb = mc[DBSETTINGS["MONGODB_DB"]]
