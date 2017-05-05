@@ -206,13 +206,17 @@ def addImageMD5():
         imgKey = ''.join(diff)
         return imgKey
 
-    file1 = "/Users/liuguiyang/Desktop/test.jpg"
-    img1 = cv2.imread(file1)
-    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-    width, height = 8, 9
-    gray1 = cv2.resize(gray1, (width, height), interpolation=cv2.INTER_CUBIC)
-    print(gray1.dtype)
-    _imgdiff(gray1, width, height)
+    filepath = ""
+    itemlist = list(dbtable.find({'imagekey': {'$exists': 'false'}}))
+    for item in itemlist:
+        print(item)
+        break
+    # img1 = cv2.imread(filepath)
+    # gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    # width, height = 8, 9
+    # gray1 = cv2.resize(gray1, (width, height), interpolation=cv2.INTER_CUBIC)
+    # print(gray1.dtype)
+    # _imgdiff(gray1, width, height)
 
 if __name__ == '__main__':
     updateRemoveDistinct()
