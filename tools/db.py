@@ -10,6 +10,7 @@ from pymongo import MongoClient
 import pymongo
 import datetime
 import cv2
+from bson.objectid import ObjectId
 
 settings = {
     "MONGODB_SERVER":"10.18.103.205",
@@ -207,16 +208,20 @@ def addImageMD5():
         return imgKey
 
     filepath = ""
-    itemlist = list(dbtable.find({'imagekey': {'$exists': 'false'}}))
+    srcprefix = "/root/SPIDERIMAGESDB/DATASOURCE/"
+    itemlist = list(dbtable.find({'imagekey': {'$exists': False}}))
     for item in itemlist:
-        print(item)
-        break
-    # img1 = cv2.imread(filepath)
-    # gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-    # width, height = 8, 9
-    # gray1 = cv2.resize(gray1, (width, height), interpolation=cv2.INTER_CUBIC)
-    # print(gray1.dtype)
-    # _imgdiff(gray1, width, height)
+        partpath = item["imagepath"]
+        filepath = srcprefix + partpath
+        if not os.path.exists(filepath):
+            continue
+        img1 = cv2.imread(filepath)
+        gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+        width, height = 8, 9
+        gray1 = cv2.resize(gray1, (width, height), interpolation=cv2.INTER_CUBIC)
+        imagekey = _imgdiff(gray1, width, height)
+        print(type(item["_id"]), item["_id"])
+        dbtable.update({'_id': item["_id"]}, {'$set': {"imagekey": imagekey}})
 
 if __name__ == '__main__':
-    updateRemoveDistinct()
+    addImageMD5()
