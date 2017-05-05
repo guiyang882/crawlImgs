@@ -50,7 +50,7 @@ def main():
     totalLen = len(itemlist)
     nthreads = 8
     pool = multiprocessing.Pool(processes=nthreads)
-    singlepart = totalLen / nthreads
+    singlepart = totalLen // nthreads
     start = 0
     for ind in range(nthreads+1):
         if start < totalLen:
