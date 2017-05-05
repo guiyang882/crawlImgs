@@ -5,3 +5,5 @@
 crawlImgs/__pycache__/
 wlImgs/spiders/__pycache__/
 *.pyc
+tools/classifier/face_detection/*.csv
+tools/classifier/face_detection/*.log
