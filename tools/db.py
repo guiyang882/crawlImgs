@@ -12,7 +12,7 @@ import datetime
 import cv2
 
 settings = {
-    "MONGODB_SERVER":"10.18.103.154",
+    "MONGODB_SERVER":"10.18.103.205",
     "MONGODB_PORT":27017,
     "MONGODB_DB":"spiderdb",
     "MONGODB_COLLECTION":"imagetable"
