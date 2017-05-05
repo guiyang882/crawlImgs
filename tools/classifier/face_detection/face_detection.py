@@ -37,3 +37,6 @@ def main():
         if len(face_locations) > 0:
             print("{} face(s) in {}.".format(len(face_locations), filepath))
             break
+
+if __name__ == '__main__':
+    main()
