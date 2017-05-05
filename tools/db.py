@@ -69,7 +69,9 @@ class DataManager():
         itemlist = list(self._collection.aggregate([{'$group':{'_id':'$imagefromurl', 'cnts':{'$sum':1}}}]))
         print(len(itemlist))
         for item in itemlist:
-            print(item)
+            if isinstance(item, dict) and "cnts" in item.keys():
+                if item["cnts"] > 1:
+                    print(item, type(item))
             break
 
 def updateRemoveDistinct():
