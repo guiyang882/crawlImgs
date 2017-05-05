@@ -58,14 +58,19 @@ class DataManager():
         return len(self._saveImgList)
 
     def updateByDistinct(self):
-        itemlist = list(self._collection.distinct("imagepath"))
+        # itemlist = list(self._collection.distinct("imagepath"))
+        # for item in itemlist:
+        #     tmplist = list(self._collection.find({"imagepath":item}).sort([
+        #                         ("imagecrawdatetime", pymongo.ASCENDING)
+        #                     ]))
+        #     if len(tmplist) > 1:
+        #         for i in range(1, len(tmplist)):
+        #             self._collection.delete_many(tmplist[i])
+        itemlist = list(self._collection.aggregate([{'$group':{'_id':'$imagefromurl', 'cnts':{'$sum':1}}}]))
+        print(len(itemlist))
         for item in itemlist:
-            tmplist = list(self._collection.find({"imagepath":item}).sort([
-                                ("imagecrawdatetime", pymongo.ASCENDING)
-                            ]))
-            if len(tmplist) > 1:
-                for i in range(1, len(tmplist)):
-                    self._collection.delete_many(tmplist[i])
+            print(item)
+            break
 
 def updateRemoveDistinct():
     dataObj = DataManager()
@@ -206,5 +211,4 @@ def addImageMD5():
     _imgdiff(gray1, width, height)
 
 if __name__ == '__main__':
-    mergeOldData2DB()
     updateRemoveDistinct()
