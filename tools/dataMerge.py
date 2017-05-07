@@ -33,9 +33,8 @@ def flagItem(filename):
             imagename = line.strip().split('/')[-1]
             itemlist = list(dbtable.find({"imagename":imagename}))
             for item in itemlist:
-                print(item)
-                # dbtable.update({"_id": item["_id"]}, {"$set": {"fetched": 1}})
-                os._exit(0)
+                print(item["_id"])
+                dbtable.update({"_id": item["_id"]}, {"$set": {"fetched": 1}})
 
 def removeInvalidItem(itemlist, pid):
     """去除数据库中无效的item，主要的判别依据是去除不在文件系统中的item"""
@@ -64,7 +63,7 @@ def addSpecificInfo2Item(itemlist, pid):
         dbtable.update({"_id": item["_id"]}, {"$set": {"imagename": imgname}})
 
 if __name__ == '__main__':
-    flagItem("/root/SPIDERIMAGESDB/DATASOURCE/部分结果/a.log")
+    flagItem("/root/SPIDERIMAGESDB/部分结果/a.log")
     pass
     # mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
     # spiderdb = mc[settings["MONGODB_DB"]]
