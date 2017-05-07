@@ -35,7 +35,7 @@ def extractPersonImageFromDB_tagFlag():
 
 def copyImage():
     """该函数主要是将数据中导出的列表数据从制定的目录中读取出来，并储存到制定的目录中去"""
-    srcprefix = "/root/SPIDERIMAGESDB/"
+    srcprefix = "/root/SPIDERIMAGESDB/DATASOURCE/"
     saveDir = "/root/SPIDERIMAGESDB/部分结果/第三批测试图像39649张.05.07/"
     filename = "/root/SPIDERIMAGESDB/部分结果/第三批提取数据的日志2017.05.07.csv"
     if not os.path.exists(filename):
@@ -56,5 +56,4 @@ def copyImage():
             print(saveabspath)
 
 if __name__ == '__main__':
-    extractPersonImageFromDB_tagFlag()
     copyImage()
