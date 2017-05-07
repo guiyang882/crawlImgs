@@ -58,15 +58,7 @@ class DataManager():
     def getCachedItemSize(self):
         return len(self._saveImgList)
 
-    def updateByDistinct(self):
-        # itemlist = list(self._collection.distinct("imagepath"))
-        # for item in itemlist:
-        #     tmplist = list(self._collection.find({"imagepath":item}).sort([
-        #                         ("imagecrawdatetime", pymongo.ASCENDING)
-        #                     ]))
-        #     if len(tmplist) > 1:
-        #         for i in range(1, len(tmplist)):
-        #             self._collection.delete_many(tmplist[i])
+    def updateByDistinctImgURL(self):
         itemlist = list(self._collection.aggregate([{'$group':{'_id':'$imagefromurl', 'cnts':{'$sum':1}}}]))
         print(len(itemlist))
         for item in itemlist:
@@ -77,9 +69,20 @@ class DataManager():
                     for i in range(1, len(tmplist)):
                         self._collection.delete_many(tmplist[i])
 
+    def updateByDistinctImgKey(self):
+        itemlist = list(self._collection.aggregate([{'$group':{'_id':'$imagekey', 'cnts':{'$sum':1}}}]))
+        print(len(itemlist))
+        for item in itemlist:
+            if isinstance(item, dict) and "cnts" in item.keys():
+                if item["cnts"] > 1:
+                    tmplist = list(self._collection.find({"imagekey": item["_id"]}).sort([("imagecrawdatetime", pymongo.ASCENDING)]))
+                    for i in range(1, len(tmplist)):
+                        self._collection.delete_many(tmplist[i])
+
 def updateRemoveDistinct():
     dataObj = DataManager()
-    dataObj.updateByDistinct()
+#    dataObj.updateByDistinctImgURL()
+    dataObj.updateByDistinctImgKey()
 
 def loadData2DBfromThird():
     filepath = "/root/SPIDERIMAGESDB/DATASOURCE/第三方数据/total.csv"
@@ -224,4 +227,4 @@ def addImageMD5():
         dbtable.update({'_id': item["_id"]}, {'$set': {"imagekey": imagekey}})
 
 if __name__ == '__main__':
-    addImageMD5()
+    updateRemoveDistinct()
