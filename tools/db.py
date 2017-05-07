@@ -235,13 +235,24 @@ def removeInvalidItem():
     dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
     itemlist = list(dbtable.find())
     srcprefix = "/root/SPIDERIMAGESDB/DATASOURCE/"
-    print(len(itemlist))
-    return 0
     for item in itemlist:
         partpath = item["imagepath"]
         filepath = srcprefix + partpath
         if not os.path.exists(filepath):
             dbtable.remove(item)
 
+def addSpecificInfo2Item():
+    """将DB中，缺少关键字 imagename 进行添加"""
+    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    spiderdb = mc[settings["MONGODB_DB"]]
+    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+    itemlist = list(dbtable.find({"imagename": {"$exists": False}}))
+    for item in itemlist:
+        partpath = item["imagepath"]
+        imgname = partpath.split(",")[-1]
+        print(item["_id"])
+        dbtable.update({"_id": item["_id"]}, {"$set": {"imagename": imgname}})
+
 if __name__ == '__main__':
-    updateRemoveDistinct()
+    removeInvalidItem()
+    addSpecificInfo2Item()
