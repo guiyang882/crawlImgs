@@ -12,10 +12,10 @@ from pymongo import MongoClient
 import multiprocessing
 
 settings = {
-    "MONGODB_SERVER":"10.18.103.205",
-    "MONGODB_PORT":27017,
-    "MONGODB_DB":"spiderdb",
-    "MONGODB_COLLECTION":"imagetable"
+    "MONGODB_SERVER": "10.18.103.205",
+    "MONGODB_PORT": 27017,
+    "MONGODB_DB": "spiderdb",
+    "MONGODB_COLLECTION": "imagetable"
 }
 
 def flagItem(filename):
@@ -33,7 +33,9 @@ def flagItem(filename):
             imagename = line.strip().split('/')[-1]
             itemlist = list(dbtable.find({"imagename":imagename}))
             for item in itemlist:
-                dbtable.update({"_id": item["_id"]}, {"$set": {"fetched": 1}})
+                print(item)
+                # dbtable.update({"_id": item["_id"]}, {"$set": {"fetched": 1}})
+                os._exit(0)
 
 def removeInvalidItem(itemlist, pid):
     """去除数据库中无效的item，主要的判别依据是去除不在文件系统中的item"""
@@ -62,19 +64,21 @@ def addSpecificInfo2Item(itemlist, pid):
         dbtable.update({"_id": item["_id"]}, {"$set": {"imagename": imgname}})
 
 if __name__ == '__main__':
-    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
-    spiderdb = mc[settings["MONGODB_DB"]]
-    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
-    itemlist = list(dbtable.find({"imagename": {"$exists": False}}))
-    totalLen = len(itemlist)
-    nthreads = 8
-    pool = multiprocessing.Pool(processes=nthreads)
-    singlepart = totalLen // nthreads
-    start = 0
-    for ind in range(nthreads + 1):
-        if start < totalLen:
-            partItem = itemlist[start:start + singlepart]
-            start += singlepart
-            pool.apply_async(addSpecificInfo2Item, (partItem, ind + 1,))
-    pool.close()
-    pool.join()
+    flagItem("/root/SPIDERIMAGESDB/DATASOURCE/部分结果/a.log")
+    pass
+    # mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    # spiderdb = mc[settings["MONGODB_DB"]]
+    # dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+    # itemlist = list(dbtable.find({"imagename": {"$exists": False}}))
+    # totalLen = len(itemlist)
+    # nthreads = 8
+    # pool = multiprocessing.Pool(processes=nthreads)
+    # singlepart = totalLen // nthreads
+    # start = 0
+    # for ind in range(nthreads + 1):
+    #     if start < totalLen:
+    #         partItem = itemlist[start:start + singlepart]
+    #         start += singlepart
+    #         pool.apply_async(addSpecificInfo2Item, (partItem, ind + 1,))
+    # pool.close()
+    # pool.join()
