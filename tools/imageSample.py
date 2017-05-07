@@ -21,63 +21,7 @@ settings = {
 }
 
 """该文件主要是将数据库中采样出数据，提供给外部进行处理"""
-def mainSample():
-    def _isEnglish(keyWord):
-        for c in keyWord:
-            if not ((c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z')):
-                return False
-        return True
-
-    filelist = "./res.list"
-
-    def _fromScene(isChinese=False):
-        scene_list = []
-        with codecs.open(filelist, 'r', 'utf8') as handle:
-            for line in handle.readlines():
-                imgClass = line.strip().split('/')[-2]
-                if '+' in imgClass:
-                    print(imgClass.split('+')[0], imgClass.split('+')[0].isalpha())
-                    if isChinese == False:
-                        scene_list.append(line.strip())
-                    elif _isEnglish(imgClass.split('+')[0]) == False:
-                        scene_list.append(line.strip())
-
-        res_list = []
-        random.shuffle(scene_list)
-        print(len(scene_list))
-        a = random.sample(scene_list, 1200)
-        res_list.extend(a)
-        return res_list
-
-    def _load_sceneMap():
-        filepath = "./scene.map"
-        scene_map = {}
-        with codecs.open(filepath, 'r', 'utf-8') as handle:
-            for line in handle.readlines():
-                line = line.strip().split(',')
-                key = line[0]
-                for cell in line:
-                    scene_map[cell] = key
-        return scene_map
-
-    saveDir = "./sampleImgs"
-    res_list = _fromScene(isChinese=True)
-    scene_map = _load_sceneMap()
-
-    for item in res_list:
-        if '+' in item.strip().split('/')[-2]:
-            keyWord = item.strip().split('/')[-2].split('+')[0]
-        else:
-            keyWord = item.strip().split('/')[-2]
-        if keyWord in scene_map.keys():
-            keyWord = scene_map[keyWord]
-        if os.path.isdir(saveDir + "/" + keyWord) == False:
-            os.makedirs(saveDir + "/" + keyWord)
-        savepath = saveDir + "/" + keyWord + "/" + item.strip().split('/')[-1]
-        print(savepath)
-        shutil.copy(item, savepath)
-
-if __name__ == '__main__':
+def extractPersonImageFromDB_tagFlag():
     mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
     spiderdb = mc[settings["MONGODB_DB"]]
     dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
@@ -87,3 +31,30 @@ if __name__ == '__main__':
     for item in itemlist:
         partpath = item["imagepath"]
         print(partpath)
+        dbtable.update({"_id": item["_id"]}, {"$set": {"fetched": 1}})
+
+def copyImage():
+    """该函数主要是将数据中导出的列表数据从制定的目录中读取出来，并储存到制定的目录中去"""
+    srcprefix = "/root/SPIDERIMAGESDB/"
+    saveDir = "/root/SPIDERIMAGESDB/部分结果/第三批测试图像39649张.05.07/"
+    filename = "/root/SPIDERIMAGESDB/部分结果/第三批提取数据的日志2017.05.07.csv"
+    if not os.path.exists(filename):
+        raise IOError(filename + " not Exists !")
+    with codecs.open(filename, 'r', 'utf8') as handle:
+        for line in handle.readlines():
+            line = line.strip()
+            absfilepath = srcprefix + line
+            if not os.path.exists(absfilepath):
+                continue
+            dirname = line.split("/")[-2]
+            if "+" in dirname:
+                dirname = dirname.split("+")[0]
+            if not os.path.isdir(saveDir + dirname):
+                os.makedirs(saveDir + dirname)
+            saveabspath = saveDir + dirname + "/" + line.split("/")[-1]
+            shutil.copy(absfilepath, saveabspath)
+            print(saveabspath)
+
+if __name__ == '__main__':
+    extractPersonImageFromDB_tagFlag()
+    copyImage()
