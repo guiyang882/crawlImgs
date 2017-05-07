@@ -84,3 +84,6 @@ if __name__ == '__main__':
     # 找到所有含有人的但是还没有进行采样的数据进行数据的提取
     itemlist = list(dbtable.find({"exists_person":1, "fetched": {"$exists": False}}))
     print(len(itemlist))
+    for item in itemlist:
+        partpath = item["imagepath"]
+        print(partpath)
