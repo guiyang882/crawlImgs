@@ -249,7 +249,7 @@ def addSpecificInfo2Item():
     itemlist = list(dbtable.find({"imagename": {"$exists": False}}))
     for item in itemlist:
         partpath = item["imagepath"]
-        imgname = partpath.split(",")[-1]
+        imgname = partpath.split("/")[-1]
         print(item["_id"])
         dbtable.update({"_id": item["_id"]}, {"$set": {"imagename": imgname}})
 
