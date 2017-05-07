@@ -81,7 +81,7 @@ class DataManager():
 
 def updateRemoveDistinct():
     dataObj = DataManager()
-#    dataObj.updateByDistinctImgURL()
+    dataObj.updateByDistinctImgURL()
     dataObj.updateByDistinctImgKey()
 
 def loadData2DBfromThird():
@@ -227,31 +227,6 @@ def addImageMD5():
         imagekey = _imgdiff(gray1, width, height)
         print(type(item["_id"]), item["_id"])
         dbtable.update({'_id': item["_id"]}, {'$set': {"imagekey": imagekey}})
-
-def removeInvalidItem():
-    """去除数据库中无效的item，主要的判别依据是去除不在文件系统中的item"""
-    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
-    spiderdb = mc[settings["MONGODB_DB"]]
-    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
-    itemlist = list(dbtable.find())
-    srcprefix = "/root/SPIDERIMAGESDB/DATASOURCE/"
-    for item in itemlist:
-        partpath = item["imagepath"]
-        filepath = srcprefix + partpath
-        if not os.path.exists(filepath):
-            dbtable.remove(item)
-
-def addSpecificInfo2Item():
-    """将DB中，缺少关键字 imagename 进行添加"""
-    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
-    spiderdb = mc[settings["MONGODB_DB"]]
-    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
-    itemlist = list(dbtable.find({"imagename": {"$exists": False}}))
-    for item in itemlist:
-        partpath = item["imagepath"]
-        imgname = partpath.split("/")[-1]
-        print(item["_id"])
-        dbtable.update({"_id": item["_id"]}, {"$set": {"imagename": imgname}})
 
 if __name__ == '__main__':
     pass

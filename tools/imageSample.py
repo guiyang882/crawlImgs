@@ -6,11 +6,19 @@
 
 from __future__ import absolute_import
 from __future__ import print_function
-
 import os
-import shutil
 import codecs
+from pymongo import MongoClient
+import multiprocessing
+import shutil
 import random
+
+settings = {
+    "MONGODB_SERVER": "10.18.103.205",
+    "MONGODB_PORT": 27017,
+    "MONGODB_DB": "spiderdb",
+    "MONGODB_COLLECTION": "imagetable"
+}
 
 """该文件主要是将数据库中采样出数据，提供给外部进行处理"""
 def mainSample():
@@ -70,4 +78,9 @@ def mainSample():
         shutil.copy(item, savepath)
 
 if __name__ == '__main__':
-    mainSample()
+    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    spiderdb = mc[settings["MONGODB_DB"]]
+    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+    # 找到所有含有人的但是还没有进行采样的数据进行数据的提取
+    itemlist = list(dbtable.find({"exists_person":1, "fetched": {"$exists": False}}))
+    print(len(itemlist))
