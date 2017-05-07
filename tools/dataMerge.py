@@ -58,14 +58,14 @@ def addSpecificInfo2Item(itemlist, pid):
     for item in itemlist:
         partpath = item["imagepath"]
         imgname = partpath.split("/")[-1]
-        print(item["_id"])
+        print(item["_id"], pid)
         dbtable.update({"_id": item["_id"]}, {"$set": {"imagename": imgname}})
 
 if __name__ == '__main__':
     mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
     spiderdb = mc[settings["MONGODB_DB"]]
     dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
-    itemlist = list(dbtable.find())
+    itemlist = list(dbtable.find({"imagename": {"$exists": False}}))
     totalLen = len(itemlist)
     nthreads = 8
     pool = multiprocessing.Pool(processes=nthreads)
@@ -75,6 +75,6 @@ if __name__ == '__main__':
         if start < totalLen:
             partItem = itemlist[start:start + singlepart]
             start += singlepart
-            pool.apply_async(removeInvalidItem, (partItem, ind + 1,))
+            pool.apply_async(addSpecificInfo2Item, (partItem, ind + 1,))
     pool.close()
     pool.join()
