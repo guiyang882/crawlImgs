@@ -9,6 +9,7 @@ from __future__ import print_function
 import os
 import codecs
 from pymongo import MongoClient
+import multiprocessing
 
 settings = {
     "MONGODB_SERVER":"10.18.103.205",
@@ -33,6 +34,47 @@ def flagItem(filename):
             itemlist = list(dbtable.find({"imagename":imagename}))
             for item in itemlist:
                 dbtable.update({"_id": item["_id"]}, {"$set": {"fetched": 1}})
+
+def removeInvalidItem(itemlist, pid):
+    """去除数据库中无效的item，主要的判别依据是去除不在文件系统中的item"""
+    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    spiderdb = mc[settings["MONGODB_DB"]]
+    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+
+    srcprefix = "/root/SPIDERIMAGESDB/DATASOURCE/"
+    for item in itemlist:
+        partpath = item["imagepath"]
+        filepath = srcprefix + partpath
+        if not os.path.exists(filepath):
+            print(item["_id"], pid)
+            dbtable.remove(item)
+
+def addSpecificInfo2Item(itemlist, pid):
+    """将DB中，缺少关键字 imagename 进行添加"""
+    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    spiderdb = mc[settings["MONGODB_DB"]]
+    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+    # itemlist = list(dbtable.find({"imagename": {"$exists": False}}))
+    for item in itemlist:
+        partpath = item["imagepath"]
+        imgname = partpath.split("/")[-1]
+        print(item["_id"])
+        dbtable.update({"_id": item["_id"]}, {"$set": {"imagename": imgname}})
+
 if __name__ == '__main__':
-    filename = ""
-    flagItem(filename)
+    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    spiderdb = mc[settings["MONGODB_DB"]]
+    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+    itemlist = list(dbtable.find())
+    totalLen = len(itemlist)
+    nthreads = 8
+    pool = multiprocessing.Pool(processes=nthreads)
+    singlepart = totalLen // nthreads
+    start = 0
+    for ind in range(nthreads + 1):
+        if start < totalLen:
+            partItem = itemlist[start:start + singlepart]
+            start += singlepart
+            pool.apply_async(removeInvalidItem, (partItem, ind + 1,))
+    pool.close()
+    pool.join()

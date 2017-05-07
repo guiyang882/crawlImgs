@@ -254,5 +254,4 @@ def addSpecificInfo2Item():
         dbtable.update({"_id": item["_id"]}, {"$set": {"imagename": imgname}})
 
 if __name__ == '__main__':
-    removeInvalidItem()
-    addSpecificInfo2Item()
+    pass
