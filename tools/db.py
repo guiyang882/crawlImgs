@@ -140,6 +140,7 @@ def loadData2DBfromThird():
                 print(srcprefix+name, es)
 
 def mergeOldData2DB():
+    """将之前的爬虫写在csv文件中的数据，meger到数据库中"""
     filepath = "/root/crawlImgs/image_infos.csv"
     if not os.path.exists(filepath):
         raise IOError(filepath + " not exists !")
@@ -192,6 +193,7 @@ def mergeOldData2DB():
                 print(es)
 
 def addImageMD5():
+    """添加每张图像的MD5值进行标记"""
     mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
     spiderdb = mc[settings["MONGODB_DB"]]
     dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
@@ -225,6 +227,21 @@ def addImageMD5():
         imagekey = _imgdiff(gray1, width, height)
         print(type(item["_id"]), item["_id"])
         dbtable.update({'_id': item["_id"]}, {'$set': {"imagekey": imagekey}})
+
+def removeInvalidItem():
+    """去除数据库中无效的item，主要的判别依据是去除不在文件系统中的item"""
+    mc = MongoClient(settings["MONGODB_SERVER"], settings["MONGODB_PORT"])
+    spiderdb = mc[settings["MONGODB_DB"]]
+    dbtable = spiderdb[settings["MONGODB_COLLECTION"]]
+    itemlist = list(dbtable.find())
+    srcprefix = "/root/SPIDERIMAGESDB/DATASOURCE/"
+    print(len(itemlist))
+    return 0
+    for item in itemlist:
+        partpath = item["imagepath"]
+        filepath = srcprefix + partpath
+        if not os.path.exists(filepath):
+            dbtable.remove(item)
 
 if __name__ == '__main__':
     updateRemoveDistinct()
