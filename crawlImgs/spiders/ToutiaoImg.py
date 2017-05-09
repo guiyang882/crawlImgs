@@ -51,14 +51,15 @@ class ToutiaoSpider(scrapy.Spider):
         itemlist = sites["data"]
         for item in itemlist:
             image_list = item["image_list"]
+            print(image_list)
             for imgdict in image_list:
                 imgItem = CrawlimgsItem()
                 info = imgdict["url"]
                 rect = info.strip().split("/")[-2].split("x")
                 imgItem["image_urls"] = [imgdict["url"]]
                 imgItem["image_label"] = item["chinese_tag"]
-                imgItem["image_fromURL"] = item["url"]
-                imgItem["image_fromURLHost"] = item["url"]
+                imgItem["image_fromURL"] = imgdict["url"]
+                imgItem["image_fromURLHost"] = imgdict["url"]
                 imgItem["image_height"] = int(rect[1])
                 imgItem["image_width"] = int(rect[0])
                 imgItem["image_crawDateTime"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
