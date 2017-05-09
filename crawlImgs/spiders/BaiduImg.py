@@ -5,8 +5,6 @@ import scrapy
 import urllib
 import json
 import datetime
-import codecs
-from pprint import pprint
 from crawlImgs.items import CrawlimgsItem
 from crawlImgs.spiders.utils import getPartLabel
 

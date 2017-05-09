@@ -1,0 +1,323 @@
+{
+    "办公室": {
+        "办公室": [
+            "office",
+            "cubicle office",
+            "home office",
+            "office building",
+            "office cubicles",
+            "veterinarians office"
+        ]
+    },
+    "舞台室内": {
+        "舞台室内": [
+            "stage indoor",
+            "arena performance",
+            "discotheque",
+            "lecture room",
+            "orchestra pit"
+        ]
+    },
+    "医院": {
+        "医院": [
+            "hospital",
+            "hospital room",
+            "nursing home"
+        ],
+        "手术室": [
+            "operating room"
+        ]
+    },
+    "生产线": {
+        "生产线": [
+            "assembly line",
+            "auto factory"
+        ]
+    },
+    "街道": {
+        "市中心": [
+            "downtown"
+        ],
+        "街道": [
+            "street",
+            "driveway",
+            "alley",
+            "boardwalk",
+            "promenade"
+        ]
+    },
+    "溜冰场": {
+        "溜冰场": [
+            "ice skating rink indoor",
+            "ice skating rink outdoor",
+            "arena hockey"
+        ]
+    },
+    "广场": {
+        "广场": [
+            "plaza"
+        ]
+    },
+    "售票处": {
+        "售票处": [
+            "ticket booth"
+        ]
+    },
+    "实验室": {
+        "物理实验室": [
+            "physice laboratory"        
+        ],
+        "化学实验室": [
+            "做实验"
+        ]
+    },
+    "火车站": {
+        "候车室": [
+            "waiting room"
+        ],
+        "火车站": [
+            "train railway",
+            "train station platform"
+        ]
+    },
+    "乡村": {
+        "稻田": [
+            "corn field",
+            "field cultivated",
+            "hayfield",
+            "wheat field"
+        ],
+        "农场": [
+            "wind farm",
+            "farm",
+            "tree farm",
+            "barn",
+            "barndoor"
+        ],
+        "牧场": [
+            "pasture",
+            "corral"
+        ],
+        "乡村": [
+            "field wild",
+            "field road",
+            "windmill"
+        ],
+        "村庄": [
+            "village",
+            "cabin",
+            "cottage"     
+        ],
+        "温室": [
+            "greenhouse indoor",
+            "greenhouse outdoor"
+        ]
+    },
+    "运动场": {
+        "运动场": [
+            "athletic field outdoor",
+            "basketball court indoor",
+            "volleyball court outdoor",
+            "playground"
+        ],
+        "跑道": [
+            "race course",
+            "track outdoor"
+        ],
+        "田径场": [
+            "athletic field outdoor"
+        ],
+        "棒球场": [
+            "baseball field"
+        ],
+        "足球场": [
+            "soccer field",
+            "football field"
+        ]
+    },
+    "游泳池": {
+        "游泳池": [
+            "swimming hole",
+            "swimming pool indoor",
+            "swimming pool outdoor",
+            "jacuzzi indoor"
+        ],
+        "水上乐园": [
+            "water park"
+        ]
+    },
+    "游戏厅": {
+        "游戏厅": [
+            "game room",
+            "amusement arcade"  
+        ]
+    },
+    "餐馆": {
+        "餐馆": [
+            "fastfood restaurant",
+            "restaurant",
+            "restaurant patio",
+            "food court",
+            "diner outdoor",
+            "delicatessen",
+            "dinette home",
+            "pizzeria"
+        ]
+    },
+    "水族馆": {
+        "水族馆": [
+            "aquarium"
+        ]
+    },
+    "咖啡店": {
+        "咖啡店": [
+            "coffee shop"
+        ]
+    },
+    "草坪": {
+        "草坪": [
+            "lawn",
+            "golf course",
+            "fairway",
+            "putting green"
+        ]
+    },
+    "住宅区": {
+        "住宅区": [
+            "residential neiborhood",
+            "apartment building outdoor",
+            "house",
+            "mansion",
+            "medina"
+        ]
+    },
+    "厨房": {
+        "厨房": [
+            "restaurant kitchen",
+            "kitchen",
+            "kitchenette"
+        ]
+    },
+    "地铁站台": {
+        "地铁站台": [
+            "subway station platform"
+        ]
+    },
+    "教堂": {
+        "教堂": [
+            "church indoor",
+            "church outdoor",
+            "cathedral indoor",
+            "cathedral outdoor",
+            "chapel",
+            "synagogue outdoor",
+            "abbey",
+            "basilica",
+            "mosque",
+            "palace",
+            "pulpit"
+        ]
+    },
+    "校园": {
+        "校园": [
+            "campus"
+        ]
+    },
+    "海滩": {
+        "海滩": [
+            "beach",
+            "beach house"
+
+        ]
+    },
+    "超市": {
+        "超市": [
+            "supermarket"
+        ]
+    },
+    "图书馆": {
+        "图书馆": [
+            "library indoor",
+            "archive",
+            "bookstore"
+        ]
+    },
+    "卧室": {
+        "卧室": [
+            "bedroom",
+            "bedchamber"
+        ]
+    },
+    "酒吧": {
+        "酒吧": [
+            "bar"
+        ]
+    },
+    "幼儿园": {
+        "幼儿园": [
+            "kindergarden classroom"
+        ]
+    },
+    "食堂": {
+        "食堂": [
+            "cafeteria",
+            "dining hall"
+        ]
+    },
+    "加油站": {
+        "加油站": [
+            "gas station"
+        ]
+    },
+    "花园": {
+        "花园": [
+            "botanical garden",
+            "cottage garden",
+            "formal garden",
+            "herb garden",
+            "japanese garden",
+            "roof garden",
+            "topiary garden"
+        ]
+    },
+    "商场": {
+        "商场": [
+            "hardware store",
+            "general store outdoor",
+            "general store indoor",
+            "department store",
+            "clothing store",
+            "candy store",
+            "book store"
+        ]
+    },
+    "健身房": {
+        "健身房": [
+            "gymnasium indoor",
+            "martial arts gym"
+        ]
+    },
+    "滑雪场": {
+        "滑雪场": [
+            "ski lodge",
+            "ski resort",
+            "ski slope"
+        ]
+    },
+    "音乐工作室": {
+        "音乐工作室": [
+            "music studio"
+        ]
+    },
+    "游乐场": {
+        "游乐场": [
+            "amusement park"
+        ]
+    },
+    "建筑工地": {
+        "建筑工地": [
+            "construction site",
+            "excavation"
+        ]
+    }
+}
