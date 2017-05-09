@@ -17,23 +17,20 @@ import _datetime
 import time
 
 def getURL(index):
-    a = "http://www.toutiao.com/api/pc/feed/?category=gallery_detail&utm_source=toutiao&max_behot_time=%d&as=A135C9A18147C24&cp=5911578C32C41E1",
-    b = "http://www.toutiao.com/api/pc/feed/?category=gallery_old_picture&utm_source=toutiao&max_behot_time=%d&as=A165B9E121980C4&cp=5911F8304C641E1",
-    c = "http://www.toutiao.com/api/pc/feed/?category=gallery_story&utm_source=toutiao&max_behot_time=%d&as=A1B599C1E1B80E7&cp=5911C8A06E776E1",
-    d = "http://www.toutiao.com/api/pc/feed/?category=gallery_photograthy&utm_source=toutiao&max_behot_time=%d&as=A135F931B128116&cp=591168C14166DE1"
     atnow = _datetime.datetime.now()
-    delta = _datetime.timedelta(minutes=30)
+    delta = _datetime.timedelta(minutes=30*index)
     val = atnow - delta
     val = int(time.mktime(val.timetuple()))
-    tmp = []
-    tmp.append(a % val)
-    tmp.append(b % val)
-    tmp.append(c % val)
-    tmp.append(d % val)
+    val = str(val)
+    a = "http://www.toutiao.com/api/pc/feed/?category=gallery_detail&utm_source=toutiao&max_behot_time="+val+"&as=A135C9A18147C24&cp=5911578C32C41E1",
+    b = "http://www.toutiao.com/api/pc/feed/?category=gallery_old_picture&utm_source=toutiao&max_behot_time="+val+"&as=A165B9E121980C4&cp=5911F8304C641E1",
+    c = "http://www.toutiao.com/api/pc/feed/?category=gallery_story&utm_source=toutiao&max_behot_time="+val+"&as=A1B599C1E1B80E7&cp=5911C8A06E776E1",
+    d = "http://www.toutiao.com/api/pc/feed/?category=gallery_photograthy&utm_source=toutiao&max_behot_time="+val+"&as=A135F931B128116&cp=591168C14166DE1"
+    tmp = [a,b,c,d]
     return tmp
 
 class ToutiaoSpider(scrapy.Spider):
-    name = "Toutiao"
+    name = "ToutiaoImg"
     allowed_domains = ["toutiao.com"]
 
     def __init__(self, keywordjson=None, category=None, *args, **kwargs):
