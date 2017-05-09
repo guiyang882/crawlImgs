@@ -47,14 +47,18 @@ class ToutiaoSpider(scrapy.Spider):
 
     def parse(self, response):
         sites = json.loads(response.body_as_unicode())
-        print(sites)
-        # for site in sites["imgs"]:
-        #     image = CrawlimgsItem()
-        #     image["image_urls"] = [site["objURL"]]
-        #     image["image_label"] = self.getName(label)
-        #     image["image_fromURL"] = site["fromURL"]
-        #     image["image_fromURLHost"] = site["fromURLHost"]
-        #     image["image_height"] = site["height"]
-        #     image["image_width"] = site["width"]
-        #     image["image_crawDateTime"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
-        #     yield image
+        itemlist = sites["data"]
+        for item in itemlist:
+            image_list = item["image_list"]
+            for imgdict in image_list:
+                imgItem = CrawlimgsItem()
+                info = imgdict["url"]
+                rect = info.strip().split("/")[-2].split("x")
+                imgItem["image_urls"] = [imgdict["url"]]
+                imgItem["image_label"] = item["chinese_tag"]
+                imgItem["image_fromURL"] = item["url"]
+                imgItem["image_fromURLHost"] = item["url"]
+                imgItem["image_height"] = int(rect[1])
+                imgItem["image_width"] = int(rect[0])
+                imgItem["image_crawDateTime"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+                yield imgItem
