@@ -22,12 +22,11 @@ def getURL(index):
     val = atnow - delta
     val = int(time.mktime(val.timetuple()))
     val = str(val)
-    a = "http://www.toutiao.com/api/pc/feed/?category=gallery_detail&utm_source=toutiao&max_behot_time="+val,
-    b = "http://www.toutiao.com/api/pc/feed/?category=gallery_old_picture&utm_source=toutiao&max_behot_time="+val,
-    c = "http://www.toutiao.com/api/pc/feed/?category=gallery_story&utm_source=toutiao&max_behot_time="+val,
+    a = "http://www.toutiao.com/api/pc/feed/?category=gallery_detail&utm_source=toutiao&max_behot_time="+val
+    b = "http://www.toutiao.com/api/pc/feed/?category=gallery_old_picture&utm_source=toutiao&max_behot_time="+val
+    c = "http://www.toutiao.com/api/pc/feed/?category=gallery_story&utm_source=toutiao&max_behot_time="+val
     d = "http://www.toutiao.com/api/pc/feed/?category=gallery_photograthy&utm_source=toutiao&max_behot_time="+val
-    tmp = [a,b,c,d]
-    return tmp
+    return a,b,c,d
 
 class ToutiaoSpider(scrapy.Spider):
     name = "ToutiaoImg"
@@ -37,10 +36,10 @@ class ToutiaoSpider(scrapy.Spider):
         super(ToutiaoSpider, self).__init__(*args,**kwargs)
         self.totalPage = 48 * 12 * 30
         self.start_urls = [
-            "http://www.toutiao.com/api/pc/feed/?category=gallery_detail&utm_source=toutiao&max_behot_time=0",
-            "http://www.toutiao.com/api/pc/feed/?category=gallery_old_picture&utm_source=toutiao&max_behot_time=0",
-            "http://www.toutiao.com/api/pc/feed/?category=gallery_story&utm_source=toutiao&max_behot_time=0",
-            "http://www.toutiao.com/api/pc/feed/?category=gallery_photograthy&utm_source=toutiao&max_behot_time=0"
+            u"http://www.toutiao.com/api/pc/feed/?category=gallery_detail&utm_source=toutiao&max_behot_time=0",
+            u"http://www.toutiao.com/api/pc/feed/?category=gallery_old_picture&utm_source=toutiao&max_behot_time=0",
+            u"http://www.toutiao.com/api/pc/feed/?category=gallery_story&utm_source=toutiao&max_behot_time=0",
+            u"http://www.toutiao.com/api/pc/feed/?category=gallery_photograthy&utm_source=toutiao&max_behot_time=0"
         ]
         for i in range(1, self.totalPage):
             self.start_urls.extend(getURL(i))
@@ -51,16 +50,19 @@ class ToutiaoSpider(scrapy.Spider):
         itemlist = sites["data"]
         for item in itemlist:
             image_list = item["image_list"]
-            print(image_list)
             for imgdict in image_list:
                 imgItem = CrawlimgsItem()
                 info = imgdict["url"]
                 rect = info.strip().split("/")[-2].split("x")
-                imgItem["image_urls"] = [imgdict["url"]]
-                imgItem["image_label"] = item["chinese_tag"]
-                imgItem["image_fromURL"] = imgdict["url"]
-                imgItem["image_fromURLHost"] = imgdict["url"]
                 imgItem["image_height"] = int(rect[1])
                 imgItem["image_width"] = int(rect[0])
+
+                imgItem["image_urls"] = [imgdict["url"]]
+                if "chinese_tag" in item.keys():
+                    imgItem["image_label"] = item["chinese_tag"]
+                else:
+                    imgItem["image_label"] = "其它"
+                imgItem["image_fromURL"] = imgdict["url"]
+                imgItem["image_fromURLHost"] = imgdict["url"]
                 imgItem["image_crawDateTime"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
                 yield imgItem

@@ -97,7 +97,6 @@ class MyImagesPipeline(ImagesPipeline):
                         #handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
                         handle.write(
                             item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "," + item["image_crawDateTime"]+ "\n")
-                    print("is_Save2Mongo ", is_Save2Mongo)
                     if is_Save2Mongo == True:
                         dataObj.insertSpiderItem(item, isBatch=True)
                         print("get Cached ItemSize is ", dataObj.getCachedItemSize())
