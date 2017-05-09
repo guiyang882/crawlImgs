@@ -35,7 +35,7 @@ class ToutiaoSpider(scrapy.Spider):
 
     def __init__(self, keywordjson=None, category=None, *args, **kwargs):
         super(ToutiaoSpider, self).__init__(*args,**kwargs)
-        self.totalPage = 48 * 6 * 30
+        self.totalPage = 48 * 12 * 30
         self.start_urls = [
             "http://www.toutiao.com/api/pc/feed/?category=gallery_detail&utm_source=toutiao&max_behot_time=0",
             "http://www.toutiao.com/api/pc/feed/?category=gallery_old_picture&utm_source=toutiao&max_behot_time=0",
