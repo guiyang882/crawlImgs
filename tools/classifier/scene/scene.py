@@ -8,11 +8,14 @@ from __future__ import absolute_import
 from __future__ import print_function
 import json
 from copy import deepcopy
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 with open('scenes.json', 'r') as f:
     data = json.load(f)
 
-log_file = "detect.log"
+log_file = "nohup.log"
 sougou_list = 'sougou_list.txt'
 
 def search(query):
@@ -27,7 +30,7 @@ def search(query):
                 return scene
     return "not found"
 
-with open(log_file, 'r') as reader, open('newfile.txt', 'w') as writer:
+with open(log_file, 'r') as reader:
     samples = []
     for line in reader.readlines():
         line = line.strip().split(' ')
@@ -38,12 +41,15 @@ with open(log_file, 'r') as reader, open('newfile.txt', 'w') as writer:
         val = singleItem[2]
         word = search(val)
         if word == "not found":
-            writer.write(singleItem[0]+",Others")
+            print(singleItem[0], "Others")
         else:
-            writer.write(singleItem[0]+","+word)
-        writer.write("\n")
+            print(singleItem[0], word)
 
     size = len(samples)
     for index in range(size):
+        if '/' not in samples[index][0]:
+            continue
+        if len(samples[index]) != 4:
+            continue
         rank = int(float(samples[index][1]))
         _showRes(samples[index])
