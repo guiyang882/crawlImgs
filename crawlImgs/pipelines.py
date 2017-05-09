@@ -94,7 +94,9 @@ class MyImagesPipeline(ImagesPipeline):
                     image_path = x['path']
                     item['image_paths'] = image_path
                     with codecs.open("image_infos.csv", 'a', 'utf-8') as handle:
-                        handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
+                        #handle.write(item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "\n")
+                        handle.write(
+                            item['image_label'] + "," + item['image_paths'] + "," + item['image_urls'][0] + "," + item["image_crawDateTime"]+ "\n")
                     print("is_Save2Mongo ", is_Save2Mongo)
                     if is_Save2Mongo == True:
                         dataObj.insertSpiderItem(item, isBatch=True)
