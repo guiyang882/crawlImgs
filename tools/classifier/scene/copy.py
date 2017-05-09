@@ -17,7 +17,7 @@ def main():
     filelog = "./res.csv"
     srcprefix = "/home/store-1-img/SPIDERIMAGESDB/部分结果/第三批测试图像37431张.05.07/"
     destprefix = "./存储的目录/"
-    with codecs.open(filename=filelog, 'r', 'utf8') as handle:
+    with codecs.open(filelog, 'r', 'utf8') as handle:
         for line in handle.readlines():
             line = line.strip().split(' ')
             if os.path.exists(srcprefix + line[0]):
