@@ -34,7 +34,7 @@ class ToutiaoSpider(scrapy.Spider):
 
     def __init__(self, keywordjson=None, category=None, *args, **kwargs):
         super(ToutiaoSpider, self).__init__(*args,**kwargs)
-        self.totalPage = 48 * 12 * 30
+        self.totalPage = 48 * 3 * 30
         self.start_urls = [
             u"http://www.toutiao.com/api/pc/feed/?category=gallery_detail&utm_source=toutiao&max_behot_time=0",
             u"http://www.toutiao.com/api/pc/feed/?category=gallery_old_picture&utm_source=toutiao&max_behot_time=0",
@@ -65,4 +65,3 @@ class ToutiaoSpider(scrapy.Spider):
                 imgItem["image_fromURL"] = imgdict["url"]
                 imgItem["image_fromURLHost"] = imgdict["url"]
                 imgItem["image_crawDateTime"] = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
-                yield imgItem
