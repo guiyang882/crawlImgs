@@ -16,9 +16,11 @@ siteMap = urllib.request.urlopen(loft_sitemap).read().decode("ascii")
 # print(siteMap)
 regUrl = re.compile(r'<loc>(http://www.lofter.com/.+)</loc>')
 targetUrl = regUrl.findall(siteMap)
-for item in targetUrl:
-    print(item)
-    page = urllib.request.urlopen(item).read().decode("utf8")
-    soup = BeautifulSoup(page, "lxml")
-    print(soup.find_all("div", {"class": "m-info f-cb"}))
-    break
+for url in targetUrl:
+    try:
+        response = urllib.request.urlopen(url)
+        if response.status in [200]:
+            if 'gif' not in response.url:
+                print(response.url)
+    except Exception as es:
+        pass

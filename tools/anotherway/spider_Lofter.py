@@ -57,7 +57,7 @@ class SpiderLofter():
     def fetchXML(self):
         def _downloadImg(imgUrl):
             savePrefix = "/root/SPIDERIMAGESDB/DATASOURCE/Lofter/"
-
+            savePrefix = ""
             image_guid = hashlib.sha1(to_bytes(imgUrl)).hexdigest()
             image_name = None
             if ".jpg" in imgUrl:
@@ -78,6 +78,7 @@ class SpiderLofter():
         for urlitem in self.urllist:
             feed = feedparser.parse(urlitem)
             for post in feed.entries:
+                print(post)
                 imgurl = post["links"][0]["href"]
                 data = urllib.request.urlopen(imgurl).read().decode("utf8")
                 soup = BeautifulSoup(data, "lxml")
@@ -87,9 +88,6 @@ class SpiderLofter():
                         continue
                     tmpUrl = img.attrs["src"]
                     _downloadImg(tmpUrl)
-
-                # print(data)
-                os._exit(0)
 
 if __name__ == '__main__':
     filename = "./users.id"
