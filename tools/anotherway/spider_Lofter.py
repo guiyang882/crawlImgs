@@ -56,7 +56,7 @@ class SpiderLofter():
 
     def fetchXML(self):
         def _downloadImg(imgUrl):
-            savePrefix = "/root/"
+            savePrefix = "/root/SPIDERIMAGESDB/DATASOURCE/Lofter/"
 
             image_guid = hashlib.sha1(to_bytes(imgUrl)).hexdigest()
             image_name = None
@@ -70,7 +70,10 @@ class SpiderLofter():
                 return
             with open(savePrefix+image_name, "wb") as writer:
                 writer.write(urllib.request.urlopen(imgUrl).read())
-            print(imgUrl, image_name)
+            with codecs.open("./download.csv", mode='a', encoding='utf8') as writer:
+                writer.write(imgUrl+',Lofter/'+image_name)
+                writer.write('\n')
+                print(imgUrl, image_name)
 
         for urlitem in self.urllist:
             feed = feedparser.parse(urlitem)
