@@ -68,8 +68,11 @@ class SpiderLofter():
                 image_name = image_guid + ".jpeg"
             if image_name == None:
                 return
-            with open(savePrefix+image_name, "wb") as writer:
-                writer.write(urllib.request.urlopen(imgUrl).read())
+            try:
+                with open(savePrefix+image_name, "wb") as writer:
+                    writer.write(urllib.request.urlopen(imgUrl).read())
+            except Exception as es:
+                print(es)
             with codecs.open("./download.csv", mode='a', encoding='utf8') as writer:
                 writer.write(imgUrl+',Lofter/'+image_name)
                 writer.write('\n')
@@ -80,7 +83,10 @@ class SpiderLofter():
             for post in feed.entries:
                 print(post)
                 imgurl = post["links"][0]["href"]
-                data = urllib.request.urlopen(imgurl).read().decode("utf8")
+                try:
+                    data = urllib.request.urlopen(imgurl).read().decode("utf8")
+                except Exception as es:
+                    print(es)
                 soup = BeautifulSoup(data, "lxml")
                 imglist = soup.find_all('img')
                 for img in imglist:
