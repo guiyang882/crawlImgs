@@ -11,6 +11,9 @@ import os
 import codecs
 import urllib.request
 import feedparser
+from bs4 import BeautifulSoup
+import hashlib
+from scrapy.utils.python import to_bytes
 
 """主要是用来抓取网易lofter的xml文件数据"""
 
@@ -37,13 +40,37 @@ class SpiderLofter():
         self.urllist = urllist
 
     def fetchXML(self):
+        def _downloadImg(imgUrl):
+            image_guid = hashlib.sha1(to_bytes(imgUrl)).hexdigest()
+            image_name = None
+            if ".jpg" in imgUrl:
+                image_name = image_guid + ".jpg"
+            if ".png" in imgUrl:
+                image_name = image_guid + ".png"
+            if ".jpeg" in imgUrl:
+                image_name = image_guid + ".jpeg"
+            if image_name == None:
+                return
+            with open(image_name, "wb") as writer:
+                writer.write(urllib.request.urlopen(imgUrl).read())
+            print(imgUrl, image_name)
+
+        savePrefix = "/root/"
         for urlitem in self.urllist:
             feed = feedparser.parse(urlitem)
             for post in feed.entries:
                 imgurl = post["links"][0]["href"]
                 data = urllib.request.urlopen(imgurl).read().decode("utf8")
-                print(data)
-                break
+                soup = BeautifulSoup(data, "lxml")
+                imglist = soup.find_all('img')
+                for img in imglist:
+                    if "class" in img.attrs.keys() and img.attrs["class"][0] == 'avatar':
+                        continue
+                    tmpUrl = img.attrs["src"]
+                    _downloadImg(tmpUrl)
+
+                # print(data)
+                os._exit(0)
 
 if __name__ == '__main__':
     filename = "./users.id"
