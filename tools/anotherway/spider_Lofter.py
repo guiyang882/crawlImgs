@@ -31,16 +31,33 @@ class SpiderLofter():
         """
         if not os.path.exists(filename):
             raise IOError(filename + " Not Found !")
+        if not os.path.exists("./already.user.id"):
+            raise IOError("./already.user.id not found !")
+        alreadyUser = []
+        with codecs.open(filename="./already.user.id", mode='r', encoding='utf8') as reader:
+            for line in reader.readlines():
+                line = line.strip()
+                alreadyUser.append(line)
+
         subfix = ".lofter.com/rss"
         urllist = []
         with codecs.open(filename=filename, mode='r', encoding='utf8') as reader:
             for line in reader.readlines():
                 line = line.strip()
+                if line in alreadyUser:
+                    continue
                 urllist.append("http://"+line + subfix)
-        self.urllist = urllist
+                alreadyUser.append(line)
+        with codecs.open(filename="./already.user.id", mode='w', encoding='utf8') as writer:
+            for line in alreadyUser:
+                writer.write(line)
+                writer.write('\n')
+                self.urllist = urllist
 
     def fetchXML(self):
         def _downloadImg(imgUrl):
+            savePrefix = "/root/"
+
             image_guid = hashlib.sha1(to_bytes(imgUrl)).hexdigest()
             image_name = None
             if ".jpg" in imgUrl:
@@ -51,11 +68,10 @@ class SpiderLofter():
                 image_name = image_guid + ".jpeg"
             if image_name == None:
                 return
-            with open(image_name, "wb") as writer:
+            with open(savePrefix+image_name, "wb") as writer:
                 writer.write(urllib.request.urlopen(imgUrl).read())
             print(imgUrl, image_name)
 
-        savePrefix = "/root/"
         for urlitem in self.urllist:
             feed = feedparser.parse(urlitem)
             for post in feed.entries:
