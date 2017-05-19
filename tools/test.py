@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2017/5/9 16:48
 # @Author  : liuguiyangnwpu@gmail.com
-# @File    : test.py
+# @File    : extractUserID.py
 # @Software: PyCharm
 
 from __future__ import absolute_import
