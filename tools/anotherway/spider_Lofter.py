@@ -95,7 +95,7 @@ class SpiderLofter():
                     _downloadImg(tmpUrl)
 
 if __name__ == '__main__':
-    filename = "./users.id"
+    filename = "./users.0.49.id"
     obj = SpiderLofter()
     obj.loadUrls(filename)
     obj.fetchXML()
