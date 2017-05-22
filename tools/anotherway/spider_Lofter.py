@@ -55,9 +55,11 @@ class SpiderLofter():
                 self.urllist = urllist
 
     def fetchXML(self):
+        strDate = "20170522"
         def _downloadImg(imgUrl):
-            savePrefix = "/root/SPIDERIMAGESDB/DATASOURCE/Lofter/"
-            savePrefix = ""
+            savePrefix = "/root/SPIDERIMAGESDB/DATASOURCE/Lofter/" + strDate + "/"
+            if not os.path.isdir(savePrefix):
+                os.makedirs(savePrefix)
             image_guid = hashlib.sha1(to_bytes(imgUrl)).hexdigest()
             image_name = None
             if ".jpg" in imgUrl:
@@ -73,8 +75,8 @@ class SpiderLofter():
                     writer.write(urllib.request.urlopen(imgUrl).read())
             except Exception as es:
                 print(es)
-            with codecs.open("./download.csv", mode='a', encoding='utf8') as writer:
-                writer.write(imgUrl+',Lofter/'+image_name)
+            with codecs.open("./download" + strDate + ".csv", mode='a', encoding='utf8') as writer:
+                writer.write(imgUrl+',Lofter/'+strDate+'/'+image_name)
                 writer.write('\n')
                 print(imgUrl, image_name)
 
@@ -96,7 +98,7 @@ class SpiderLofter():
                     _downloadImg(tmpUrl)
 
 if __name__ == '__main__':
-    filename = "./users.0.49.id"
+    filename = "./users.50.160.id"
     obj = SpiderLofter()
     obj.loadUrls(filename)
     obj.fetchXML()
