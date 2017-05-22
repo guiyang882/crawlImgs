@@ -83,7 +83,6 @@ class SpiderLofter():
         for urlitem in self.urllist:
             feed = feedparser.parse(urlitem)
             for post in feed.entries:
-                print(post)
                 imgurl = post["links"][0]["href"]
                 try:
                     data = urllib.request.urlopen(imgurl).read().decode("utf8")
