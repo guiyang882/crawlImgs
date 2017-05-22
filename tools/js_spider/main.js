@@ -1,6 +1,6 @@
 var fs = require('fs');
 var casper = require('casper').create({
-    waitTimeout: 1000000000000000000,
+    waitTimeout: 1000000,
     pageSettings: {
         loadImages: true,
         loadPlugins: false,
@@ -718,9 +718,8 @@ function scrollAndclick() {
     };
 
     casper.Waiter = function() {
-        this.wait(1000, function () {
-            // this.echo('I waited for 1 second');
-            ;
+        this.wait(100, function () {
+            this.echo('I waited for 1 second');
         });
         return true;
     };
@@ -738,7 +737,7 @@ function scrollAndclick() {
                 // casper.echo("SumTime: " + sumTime);
                 startTime = new Date();
                 // this.echo(clickMoreTimes, 'Debug');
-            }, null, 10000);
+            }, null, 10);
         });
     });
 
